@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ActivityIndicator, View, Image ,Text, FlatList, TouchableOpacity, Modal, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, ActivityIndicator, View, Image ,Text, FlatList, TouchableOpacity, Modal, TouchableWithoutFeedback, Keyboard, ImageBackground } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { LinearGradient } from "expo-linear-gradient";
 
-export default function List() {
+export default function List({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [titles, setTitles] = useState([]);
 
@@ -24,12 +25,34 @@ export default function List() {
             showsVerticalScrollIndicator={false}
             keyExtractor={(item) => item.mal_id.toString()}
             renderItem={({ item }) => (
-                    <Image 
-                        source={{
-                            uri: item.image_url
-                        }} 
-                        style={styles.logo} 
-                    />
+            <TouchableOpacity style={styles.opac} onPress={() => navigation.navigate('Details', item)}>
+            <ImageBackground 
+                source={{
+                    uri: item.image_url
+                }} 
+                style={styles.logo} 
+                imageStyle={{ borderRadius: 6}}
+            >
+                {item.watching_status === 1 && (
+                    <View style={styles.badge}>
+                        <Text style={styles.badgeText}>CW</Text>
+                    </View>
+                )}
+                {item.watching_status === 2 && (
+                    <View style={styles.badge}>
+                        <Text style={styles.badgeText2}>CMPL</Text>
+                    </View>
+                )}
+                <View style={styles.titleContainer}>
+                    <LinearGradient
+                      colors={['transparent', 'black']}
+                      style={styles.linearGradient}
+                    >
+                        <Text numberOfLines={2} style={styles.title}>{item.title}</Text>
+                    </LinearGradient>
+                </View>
+            </ImageBackground>
+            </TouchableOpacity>
             )}
         />
             )}
@@ -40,18 +63,57 @@ export default function List() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 3,
         backgroundColor: 'white'
     },
-    list: {
-        flexGrow: 1,
+    opac: {
+        height: 190,
+        flex: 1/3,
+        margin: 3.2,
     },
     logo: {
-        height: 180,
-        flex: 1,
+        height: '100%',
         borderRadius: 6,
-        margin: 4,
+    },
+    titleContainer: {
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        width: '100%',
+        borderRadius: 6
+    },
+    title: {
+        fontFamily: "pt-sans-bold",
+        fontSize: 15,
+        color: "white",
+        padding: 5,
+        width: '100%',
+    },
+    linearGradient: {
+        borderRadius: 6
+    },
+    badge: {
+        position: "absolute",
+        right: 5,
+        top: 5,
+    },
+    badgeText: {
+        fontFamily: "pt-sans-bold",
+        fontSize: 12,
+        color: "white",
+        width: '100%',
+        paddingHorizontal: 3,
+        borderRadius: 4,
+        backgroundColor: '#47a84a',
+    },
+    badgeText2: {
+        fontFamily: "pt-sans-bold",
+        fontSize: 12,
+        color: "white",
+        width: '100%',
+        paddingHorizontal: 3,
+        borderRadius: 4,
+        backgroundColor: '#448AFF',
     }
 })

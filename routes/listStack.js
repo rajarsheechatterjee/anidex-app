@@ -9,7 +9,7 @@ const Stack = createStackNavigator();
 function listStack() {
   return (
         <Stack.Navigator>
-          <Stack.Screen name="List" component={List} />
+          <Stack.Screen name="StroheimRequiem's List" component={List} />
         </Stack.Navigator>
 
   );

@@ -5,7 +5,8 @@ import Navigator from './routes/bottomTabs';
 
 const getFonts = () => Font.loadAsync({
     'nunito-regular': require('./assets/fonts/Nunito-Regular.ttf'),
-    'nunito-bold': require('./assets/fonts/Nunito-SemiBold.ttf')
+    'nunito-bold': require('./assets/fonts/Nunito-SemiBold.ttf'),
+    'pt-sans-bold': require('./assets/fonts/PTSansNarrow-Bold.ttf')
   });
 
 
