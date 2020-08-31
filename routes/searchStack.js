@@ -1,15 +1,14 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from '../screens/home';
-import List from '../screens/list';
+import Search from '../screens/search';
 import Details from '../screens/details';
 
 const Stack = createStackNavigator();
 
-function listStack() {
+function homeStack() {
   return (
         <Stack.Navigator>
-          <Stack.Screen name="StroheimRequiem's List" component={List} />
+          <Stack.Screen name="Search" component={Search} />
           <Stack.Screen 
             name="Details" 
             component={Details} 
@@ -20,4 +19,4 @@ function listStack() {
   );
 }
 
-export default listStack;
+export default homeStack;

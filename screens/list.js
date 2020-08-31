@@ -43,6 +43,11 @@ export default function List({ navigation }) {
                         <Text style={styles.badgeText2}>CMPL</Text>
                     </View>
                 )}
+                {item.watching_status === 6 && (
+                    <View style={styles.badge}>
+                        <Text style={styles.badgeText3}>PTW</Text>
+                    </View>
+                )}
                 <View style={styles.titleContainer}>
                     <LinearGradient
                       colors={['transparent', 'black']}
@@ -115,5 +120,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 3,
         borderRadius: 4,
         backgroundColor: '#448AFF',
-    }
+    },
+    badgeText3: {
+        fontFamily: "pt-sans-bold",
+        fontSize: 12,
+        color: "white",
+        width: '100%',
+        paddingHorizontal: 3,
+        borderRadius: 4,
+        backgroundColor: '#212121',
+    },
 })
