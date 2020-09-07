@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Image, ActivityIndicator, ImageBackground, Clipboard, ToastAndroid, ScrollView, Vibration  } from 'react-native';
+import { StyleSheet, View, Text, Image, ActivityIndicator, ImageBackground, Clipboard, ToastAndroid, ScrollView } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
-// import TabNav from '../navigation/tabNavigation';
+import TabNav from '../navigation/tabNavigation';
 
 export default function Details({ route, navigation }) {
 
@@ -67,8 +67,8 @@ export default function Details({ route, navigation }) {
                         </View>                        
                         </LinearGradient>
                     </ImageBackground>
-                    {/* <TabNav /> */}
-                    <View style={styles.mainContainer}>
+                    <TabNav />
+                    {/* <View style={styles.mainContainer}>
                         <View style={styles.statsContainer}>
                             <View style={styles.details}>
                                     <View style={styles.stat}>
@@ -115,7 +115,7 @@ export default function Details({ route, navigation }) {
                                 {title.synopsis}
                             </Text>
                         </View>
-                    </View>
+                    </View> */}
                 </ScrollView>
             )}
         </View>

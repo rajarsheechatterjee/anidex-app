@@ -1,17 +1,26 @@
+import React from 'react';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import General from '../screens/general';
+import General2 from '../screens/general2';
+import General3 from '../screens/general3';
+import General4 from '../screens/general4';
 
-// import React from 'react';
-// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-// import General from '../screens/general';
-// import List from '../screens/list';
 
-// const Tab = createMaterialTopTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 
-// function MyTabs({title}) {
-//   return (
-//     <Tab.Navigator>
-//       <Tab.Screen name="General" component={General} initialParams={title} />
-//     </Tab.Navigator>
-//   );
-// }
+function MyTabs() {
+  return (
+    <Tab.Navigator
+    tabBarOptions={{
+        labelStyle: { fontSize: 12, textTransform: 'none' },
+        tabStyle: { minHeight: 10, maxHeight: 30, },
+      }}>
+      <Tab.Screen name="General" component={General}/>
+      <Tab.Screen name="General3" component={General3}/>
+      <Tab.Screen name="General4" component={General4}/>
+      <Tab.Screen name="General2" component={General2}/>
+    </Tab.Navigator>
+  );
+}
 
-// export default MyTabs;
+export default MyTabs;
