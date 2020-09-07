@@ -1,15 +1,18 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeStack from '../routes/homeStack';
-import ListStack from '../routes/listStack';
-import SearchStack from '../routes/searchStack';
+import HomeStack from './homeStack';
+import ListStack from './listStack';
+import SearchStack from './searchStack';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Tab = createBottomTabNavigator();
 
 function BottomTabsNavigator() {
+
+
   return (
       <NavigationContainer>
         <Tab.Navigator>
@@ -41,7 +44,6 @@ function BottomTabsNavigator() {
           />
         </Tab.Navigator>
       </NavigationContainer>
-    
   );
 }
 
