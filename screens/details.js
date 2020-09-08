@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Image, ActivityIndicator, ImageBackground, Clipboard, ToastAndroid, ScrollView, Vibration  } from 'react-native';
+import { StyleSheet, View, Text, Image, ActivityIndicator, ImageBackground, Clipboard, ToastAndroid, ScrollView } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
-// import TabNav from '../navigation/tabNavigation';
+import TabNav from '../navigation/tabNavigation';
 
 export default function Details({ route, navigation }) {
 
@@ -67,55 +67,7 @@ export default function Details({ route, navigation }) {
                         </View>                        
                         </LinearGradient>
                     </ImageBackground>
-                    {/* <TabNav /> */}
-                    <View style={styles.mainContainer}>
-                        <View style={styles.statsContainer}>
-                            <View style={styles.details}>
-                                    <View style={styles.stat}>
-                                        <Text style={styles.episode}>Episodes </Text>
-                                        { title.episodes ?
-                                            <Text>{title.episodes}</Text> :
-                                            <Text>?</Text>
-                                            }
-                                    </View>
-                                    <View style={styles.stat}>
-                                        <Text style={styles.episode}>Type </Text>
-                                        <Text>{title.type}</Text>
-                                    </View>
-                            </View>
-                            <View style={styles.details2}>
-                                    <View style={styles.stat}>
-                                        <Text style={styles.episode}>Score </Text>
-                                        <Text>{title.score}</Text>
-                                    </View>
-                                    <View style={styles.stat}>
-                                        <Text style={styles.episode}>Status </Text>
-                                        <Text>{title.status}</Text>
-                                    </View>
-                            </View>
-                            <View style={styles.details}>
-                                    <View style={styles.stat}>
-                                        <Text style={styles.episode}>Start </Text>
-                                        <Text>{title.aired.from.substring(0,10)}</Text>
-                                    </View>
-                                    <View style={styles.stat}>
-                                        <Text style={styles.episode}>End </Text>
-                                        { title.aired.to ?
-                                        <Text>{title.aired.to.substring(0,10)}</Text> :
-                                        <Text>?</Text>
-                                        }
-                                    </View>
-                            </View>
-                        </View>
-                        <View style={{marginTop: 10, alignItems: 'center'}}>
-                            <Text style={styles.summary}>
-                                Synopsiss
-                            </Text>
-                            <Text style={styles.synopsis}>
-                                {title.synopsis}
-                            </Text>
-                        </View>
-                    </View>
+                    <TabNav title={title} navigation={navigation}/>
                 </ScrollView>
             )}
         </View>
@@ -146,11 +98,6 @@ const styles = StyleSheet.create({
         margin: 3.2,
         borderRadius: 6, 
     },
-    mainContainer: {
-        flexDirection: 'column',
-        margin: 17,
-        marginTop: 0,
-    },
     nameContainer: {
         flex:1, 
         width: '100%',
@@ -159,10 +106,6 @@ const styles = StyleSheet.create({
     head: {
         fontWeight: 'bold',
         fontSize: 20,
-    },
-    synopsis: {
-        lineHeight: 20,
-        // fontFamily: 'nunito-regular'
     },
     desc: {
         color: '#424242',
@@ -174,35 +117,4 @@ const styles = StyleSheet.create({
         marginVertical: 3,
         fontSize: 16,
     },
-    summary: {
-      fontWeight: 'bold',
-      fontSize: 16,
-      marginBottom: 10,
-    },
-    details: {
-        flexDirection: 'row',
-    },
-    details2: {
-        flexDirection: 'row',
-        backgroundColor: '#F0F0F0',
-        borderRadius: 6,
-    },
-    stat: {
-        flexDirection: 'row',
-        flex: 1/2,
-        paddingVertical: 10,
-        paddingRight: 20,
-        justifyContent: 'space-between',
-        paddingHorizontal: 5,
-    },
-    episode: {
-        fontWeight: 'bold',
-        fontSize: 15,
-    },
-    statsContainer: {
-        borderBottomColor: 'rgba(0,0,0,0.1)',
-        borderBottomWidth: 1,
-        borderTopColor: 'rgba(0,0,0,0.1)',
-        borderTopWidth: 1,
-    }
 })

@@ -1,17 +1,29 @@
+import React from 'react';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { ScrollView } from 'react-native';
 
-// import React from 'react';
-// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-// import General from '../screens/general';
-// import List from '../screens/list';
+import General from '../screens/general';
+import Details from '../screens/stats';
+import Recom from '../screens/recommendations';
 
-// const Tab = createMaterialTopTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 
-// function MyTabs({title}) {
-//   return (
-//     <Tab.Navigator>
-//       <Tab.Screen name="General" component={General} initialParams={title} />
-//     </Tab.Navigator>
-//   );
-// }
+function MyTabs({title}) {
+  return (
+    <ScrollView>
 
-// export default MyTabs;
+    <Tab.Navigator
+    tabBarOptions={{
+        labelStyle: { fontSize: 12, textTransform: 'none' },
+        tabStyle: { minHeight: 10, maxHeight: 30, },
+      }}>
+      <Tab.Screen name="General">{() => <General title={title} />}</Tab.Screen>
+      <Tab.Screen name="Details">{() => <Details title={title} />}</Tab.Screen>
+      <Tab.Screen name="Recoms">{() => <Recom title={title} />}</Tab.Screen>
+    </Tab.Navigator>
+    </ScrollView>
+
+  );
+}
+
+export default MyTabs;
