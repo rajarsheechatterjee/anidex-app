@@ -4,6 +4,7 @@ import { ScrollView } from 'react-native';
 
 import General from '../screens/general';
 import Details from '../screens/stats';
+import Recom from '../screens/recommendations';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -18,6 +19,7 @@ function MyTabs({title}) {
       }}>
       <Tab.Screen name="General">{() => <General title={title} />}</Tab.Screen>
       <Tab.Screen name="Details">{() => <Details title={title} />}</Tab.Screen>
+      <Tab.Screen name="Recoms">{() => <Recom title={title} />}</Tab.Screen>
     </Tab.Navigator>
     </ScrollView>
 

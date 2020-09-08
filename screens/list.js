@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ActivityIndicator, View, Image ,Text, FlatList, TouchableOpacity, Modal, TouchableWithoutFeedback, Keyboard, ImageBackground } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { StyleSheet, ActivityIndicator, View ,Text, FlatList, TouchableOpacity, ImageBackground, SafeAreaView } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function List({ navigation }) {
@@ -16,7 +15,7 @@ export default function List({ navigation }) {
     }, []);
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             {isLoading ? <ActivityIndicator/> : (
             <FlatList
             contentContainerStyle={styles.list}
@@ -61,7 +60,7 @@ export default function List({ navigation }) {
             )}
         />
             )}
-        </View>
+        </SafeAreaView>
     )
 }
 

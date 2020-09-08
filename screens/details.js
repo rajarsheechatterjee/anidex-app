@@ -67,7 +67,7 @@ export default function Details({ route, navigation }) {
                         </View>                        
                         </LinearGradient>
                     </ImageBackground>
-                    <TabNav title={title} />
+                    <TabNav title={title} navigation={navigation}/>
                 </ScrollView>
             )}
         </View>

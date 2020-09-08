@@ -51,6 +51,16 @@ export default function General({title}) {
                             <Text style={styles.synopsis}>
                                 {title.synopsis}
                             </Text>
+                            { title.background &&
+                                <View>
+                                    <Text style={styles.summary}>
+                                        Backgroundd
+                                    </Text>
+                                    <Text style={styles.synopsis}>
+                                        {title.background}
+                                    </Text>
+                                </View>
+                            }
                         </View>
                     </View>
         </ScrollView>
