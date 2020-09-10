@@ -8,21 +8,23 @@ import Recom from '../screens/recommendations';
 
 const Tab = createMaterialTopTabNavigator();
 
-function MyTabs({title}) {
+function MyTabs({ title }) {
   return (
     <ScrollView>
-
-    <Tab.Navigator
-    tabBarOptions={{
-        labelStyle: { fontSize: 12, textTransform: 'none' },
-        tabStyle: { minHeight: 10, maxHeight: 30, },
-      }}>
-      <Tab.Screen name="General">{() => <General title={title} />}</Tab.Screen>
-      <Tab.Screen name="Details">{() => <Details title={title} />}</Tab.Screen>
-      <Tab.Screen name="Recoms">{() => <Recom title={title} />}</Tab.Screen>
-    </Tab.Navigator>
+      <Tab.Navigator
+        tabBarOptions={{
+          labelStyle: { fontSize: 12, textTransform: 'none' },
+          tabStyle: { minHeight: 10, maxHeight: 30 },
+        }}>
+        <Tab.Screen name="General">
+          {() => <General title={title} />}
+        </Tab.Screen>
+        <Tab.Screen name="Details">
+          {() => <Details title={title} />}
+        </Tab.Screen>
+        <Tab.Screen name="Recoms">{() => <Recom title={title} />}</Tab.Screen>
+      </Tab.Navigator>
     </ScrollView>
-
   );
 }
 

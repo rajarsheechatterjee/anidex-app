@@ -7,15 +7,14 @@ const Stack = createStackNavigator();
 
 function homeStack() {
   return (
-        <Stack.Navigator>
-          <Stack.Screen name="Search" component={Search} />
-          <Stack.Screen 
-            name="Details" 
-            component={Details} 
-            options={({ route }) => ({ title: route.params.title })}
-          />        
-        </Stack.Navigator>
-
+    <Stack.Navigator>
+      <Stack.Screen name="Search" component={Search} />
+      <Stack.Screen
+        name="Details"
+        component={Details}
+        options={({ route }) => ({ title: route.params.title })}
+      />
+    </Stack.Navigator>
   );
 }
 

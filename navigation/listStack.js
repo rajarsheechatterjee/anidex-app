@@ -8,15 +8,14 @@ const Stack = createStackNavigator();
 
 function listStack() {
   return (
-        <Stack.Navigator>
-          <Stack.Screen name="StroheimRequiem's List" component={List} />
-          <Stack.Screen 
-            name="Details" 
-            component={Details} 
-            options={({ route }) => ({ title: route.params.title })}
-          />        
-        </Stack.Navigator>
-
+    <Stack.Navigator>
+      <Stack.Screen name="StroheimRequiem's List" component={List} />
+      <Stack.Screen
+        name="Details"
+        component={Details}
+        options={({ route }) => ({ title: route.params.title })}
+      />
+    </Stack.Navigator>
   );
 }
 
