@@ -1,68 +1,79 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Image, ActivityIndicator, ImageBackground, Clipboard, ToastAndroid, ScrollView, Vibration  } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 
 
 export default function General({title}) {
     return (
         <ScrollView>
             <View style={styles.mainContainer}>
-                        <View style={styles.statsContainer}>
-                            <View style={styles.details}>
-                                    <View style={styles.stat}>
-                                        <Text style={styles.episode}>Episodes </Text>
-                                        { title.episodes ?
-                                            <Text>{title.episodes}</Text> :
-                                            <Text>?</Text>
-                                            }
-                                    </View>
-                                    <View style={styles.stat}>
-                                        <Text style={styles.episode}>Type </Text>
-                                        <Text>{title.type}</Text>
-                                    </View>
+                <View style={styles.statsContainer}>
+                    <View style={styles.details}>
+                            <View style={styles.stat}>
+                                <Text style={styles.episode}>Episodes </Text>
+                                { title.episodes ?
+                                    <Text>{title.episodes}</Text> :
+                                    <Text>?</Text>
+                                    }
                             </View>
-                            <View style={styles.details2}>
-                                    <View style={styles.stat}>
-                                        <Text style={styles.episode}>Score </Text>
-                                        <Text>{title.score}</Text>
-                                    </View>
-                                    <View style={styles.stat}>
-                                        <Text style={styles.episode}>Status </Text>
-                                        <Text>{title.status}</Text>
-                                    </View>
+                            <View style={styles.stat}>
+                                <Text style={styles.episode}>Type </Text>
+                                <Text>{title.type}</Text>
                             </View>
-                            <View style={styles.details}>
-                                    <View style={styles.stat}>
-                                        <Text style={styles.episode}>Start </Text>
-                                        <Text>{title.aired.from.substring(0,10)}</Text>
-                                    </View>
-                                    <View style={styles.stat}>
-                                        <Text style={styles.episode}>End </Text>
-                                        { title.aired.to ?
-                                        <Text>{title.aired.to.substring(0,10)}</Text> :
-                                        <Text>?</Text>
-                                        }
-                                    </View>
+                    </View>
+                    <View style={styles.details2}>
+                            <View style={styles.stat}>
+                                <Text style={styles.episode}>Score </Text>
+                                <Text>{title.score}</Text>
                             </View>
-                        </View>
-                        <View style={{marginTop: 10, alignItems: 'center'}}>
+                            <View style={styles.stat}>
+                                <Text style={styles.episode}>Status </Text>
+                                <Text>{title.status}</Text>
+                            </View>
+                    </View>
+                    <View style={styles.details}>
+                            <View style={styles.stat}>
+                                <Text style={styles.episode}>Start </Text>
+                                <Text>{title.aired.from.substring(0,10)}</Text>
+                            </View>
+                            <View style={styles.stat}>
+                                <Text style={styles.episode}>End </Text>
+                                { title.aired.to ?
+                                <Text>{title.aired.to.substring(0,10)}</Text> :
+                                <Text>?</Text>
+                                }
+                            </View>
+                    </View>
+                </View>
+                <View style={styles.genres}>
+                    <FlatList
+                        horizontal 
+                        data={title.genres}
+                        keyExtractor={(item) => item.key}
+                        renderItem={({ item, index }) => (
+                            <Text style={styles.genre}>{item.name}</Text>
+                        )}
+                    />
+                </View>
+                <View style={{marginTop: 10, alignItems: 'center'}}>
+                    <Text style={styles.summary}>
+                        Synopsiss
+                    </Text>
+                    <Text style={styles.synopsis}>
+                        {title.synopsis}
+                    </Text>
+                    { title.background &&
+                        <View>
                             <Text style={styles.summary}>
-                                Synopsiss
+                                Backgroundd
                             </Text>
                             <Text style={styles.synopsis}>
-                                {title.synopsis}
+                                {title.background}
                             </Text>
-                            { title.background &&
-                                <View>
-                                    <Text style={styles.summary}>
-                                        Backgroundd
-                                    </Text>
-                                    <Text style={styles.synopsis}>
-                                        {title.background}
-                                    </Text>
-                                </View>
-                            }
                         </View>
-                    </View>
+                    }
+                </View>
+            </View>
         </ScrollView>
     )
 }
@@ -144,5 +155,18 @@ const styles = StyleSheet.create({
     statsContainer: {
         borderBottomColor: 'rgba(0,0,0,0.1)',
         borderBottomWidth: 1,
+    },
+    genre: {
+        color: 'blue',
+        borderRadius: 24,
+        borderColor: 'blue',
+        borderWidth: 1,
+        paddingHorizontal: 10,
+        marginHorizontal: 2,
+        fontSize: 13,
+        paddingVertical: 1
+    },
+    genres: {
+        marginTop: 10,
     }
 })

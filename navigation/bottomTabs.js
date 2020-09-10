@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack from './homeStack';
@@ -11,9 +11,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const Tab = createBottomTabNavigator();
 
 function BottomTabsNavigator() {
-
-
+  // const scheme = useColorScheme();
   return (
+    <AppearanceProvider>
       <NavigationContainer>
         <Tab.Navigator>
           <Tab.Screen 
@@ -44,6 +44,7 @@ function BottomTabsNavigator() {
           />
         </Tab.Navigator>
       </NavigationContainer>
+    </AppearanceProvider>
   );
 }
 

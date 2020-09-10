@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Image, ActivityIndicator, ImageBackground, Clipboard, ToastAndroid, ScrollView, Vibration } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
-
+import React from 'react';
+import { StyleSheet, View, Text, SafeAreaView, FlatList } from 'react-native';
 
 export default function General({title}) {
     return (
@@ -34,19 +32,27 @@ export default function General({title}) {
                     </View>
                 </View>
                 <View>
-                    <Text style={styles.heading}>Opening Themes</Text>
                     {title.opening_themes &&
-                        title.opening_themes.map((theme, index) => (
-                            <Text numberOfLines={1} style={[styles.opening, index % 2 !== 0 && styles.bg]}>#{index+1} {theme}</Text>
-                        ))
+                        <FlatList 
+                            data={title.opening_themes}
+                            keyExtractor={(item) => item.key}
+                            renderItem={({ item, index }) => (
+                                <Text numberOfLines={1} style={[styles.opening, index % 2 !== 0 && styles.bg]}>{item}</Text>
+                            )}
+                            ListHeaderComponent={() => <Text style={styles.heading}>Opening Themes</Text>}
+                        />
                     }
                 </View>
                 <View>
-                    <Text style={styles.heading}>Ending Themes</Text>
                     {title.ending_themes &&
-                        title.ending_themes.map((theme, index) => (
-                            <Text numberOfLines={1} style={[styles.opening, index % 2 !== 0 && styles.bg]}>#{index+1} {theme}</Text>
-                        ))
+                        <FlatList 
+                        data={title.ending_themes}
+                        keyExtractor={(item) => item.key}
+                        renderItem={({ item, index }) => (
+                            <Text numberOfLines={1} style={[styles.opening, index % 2 !== 0 && styles.bg]}>{item}</Text>
+                        )}
+                        ListHeaderComponent={() => <Text style={styles.heading}>Ending Themes</Text>}
+                    />
                     }
                 </View>
             </View>
@@ -64,7 +70,7 @@ const styles = StyleSheet.create({
         textAlign: 'center', 
         fontWeight: 'bold', 
         fontSize: 16, 
-        marginVertical: 7
+        marginVertical: 10
     },
     genre: {
         borderRadius: 6,

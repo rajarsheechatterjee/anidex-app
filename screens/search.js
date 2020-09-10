@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, ActivityIndicator, FlatList, TouchableOpacity, Modal, TextInput, TouchableWithoutFeedback, Keyboard, ImageBackground } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from "expo-linear-gradient";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import SearchBar from "react-native-dynamic-search-bar";
 
 export default function Details({ route, navigation }) {
 
@@ -20,11 +19,14 @@ export default function Details({ route, navigation }) {
 
     return (
         <View style={styles.container}>
-            <TextInput 
-                style={styles.textInput}
-                placeholder='Search Anime'
-                onChangeText={getTitles}
-            />
+            <SearchBar
+              iconColor="#3f51b5"
+              placeholder="Search here"
+              onChangeText={getTitles}
+              onPressCancel={() => {
+                setTitles([]);
+              }}
+              onPressToFocus              />
             {isLoading ? <ActivityIndicator/> : (
             <FlatList
                 contentContainerStyle={styles.list}
@@ -77,6 +79,9 @@ const styles = StyleSheet.create({
         margin: 8,
         marginVertical: 10,
         paddingHorizontal: 10,
+     },
+     list: {
+         marginTop: 15,
      },
      opac: {
         height: 190,
