@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -10,10 +10,10 @@ import {
   ToastAndroid,
   ScrollView,
 } from 'react-native';
-import {LinearGradient} from 'expo-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 import TabNav from '../navigation/tabNavigation';
 
-export default function Details({route, navigation}) {
+export default function Details({ route, navigation }) {
   const item = route.params;
 
   const [isLoading, setLoading] = useState(true);
@@ -68,7 +68,7 @@ export default function Details({route, navigation}) {
                       {title.studios.map((item) => item.name)}
                     </Text>
                   )}
-                  <View style={{marginTop: 10}}>
+                  <View style={{ marginTop: 10 }}>
                     <Text style={styles.desc}>{title.type}</Text>
                     {title.aired.string && (
                       <Text style={styles.desc}>{title.aired.string}</Text>

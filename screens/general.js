@@ -4,7 +4,7 @@ import { FlatList } from 'react-native-gesture-handler';
 
 export default function General({ title }) {
   return (
-    <ScrollView>
+    <View>
       <View style={styles.mainContainer}>
         <View style={styles.statsContainer}>
           <View style={styles.details}>
@@ -63,7 +63,7 @@ export default function General({ title }) {
           )}
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 

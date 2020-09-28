@@ -1,6 +1,6 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { ScrollView } from 'react-native';
+import { View } from 'react-native';
 
 import General from '../screens/general';
 import Details from '../screens/stats';
@@ -10,7 +10,7 @@ const Tab = createMaterialTopTabNavigator();
 
 function MyTabs({ title }) {
   return (
-    <ScrollView>
+    <View>
       <Tab.Navigator
         tabBarOptions={{
           labelStyle: { fontSize: 12, textTransform: 'none' },
@@ -24,7 +24,7 @@ function MyTabs({ title }) {
         </Tab.Screen>
         <Tab.Screen name="Recoms">{() => <Recom title={title} />}</Tab.Screen>
       </Tab.Navigator>
-    </ScrollView>
+    </View>
   );
 }
 
