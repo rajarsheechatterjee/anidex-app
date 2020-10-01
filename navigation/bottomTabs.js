@@ -11,6 +11,7 @@ import ListStack from "./listStack";
 import SearchStack from "./searchStack";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 
@@ -26,8 +27,8 @@ function BottomTabsNavigator() {
                         options={{
                             tabBarLabel: "Top Anime",
                             tabBarIcon: ({ color, size }) => (
-                                <MaterialCommunityIcons
-                                    name="home"
+                                <MaterialIcons
+                                    name="collections-bookmark"
                                     color={color}
                                     size={size}
                                 />

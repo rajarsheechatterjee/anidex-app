@@ -35,7 +35,9 @@ export default function Home({ navigation }) {
     return (
         <View style={styles.container}>
             {isLoading ? (
-                <ActivityIndicator />
+                <View style={{ flex: 1, justifyContent: "center" }}>
+                    <ActivityIndicator size="large" color="blue" />
+                </View>
             ) : (
                 <>
                     <FlatList
