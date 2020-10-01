@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
-    SafeAreaView,
     ActivityIndicator,
     View,
     Text,
     FlatList,
     TouchableOpacity,
     ImageBackground,
+    SafeAreaView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function Home({ title, navigation }) {
+export default function List({ navigation }) {
     const [isLoading, setLoading] = useState(true);
-    const [recomTitles, setTitles] = useState([]);
+    const [titles, setTitles] = useState([]);
 
     useEffect(() => {
-        fetch(`https://api.jikan.moe/v3/anime/${title.mal_id}/recommendations`)
+        fetch(`https://api.jikan.moe/v3/user/stroheimrequiem/animelist`)
             .then((response) => response.json())
-            .then((json) => setTitles(json.recommendations.slice(0, 9)))
+            .then((json) => setTitles(json.anime))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     }, []);
@@ -33,16 +33,14 @@ export default function Home({ title, navigation }) {
                 <FlatList
                     contentContainerStyle={styles.list}
                     numColumns={3}
-                    data={recomTitles}
+                    data={titles}
                     showsVerticalScrollIndicator={false}
                     keyExtractor={(item) => item.mal_id.toString()}
                     renderItem={({ item }) => (
                         <TouchableOpacity
                             style={styles.opac}
-                            onPress={() => {
-                                navigation.navigate("Details", item);
-                                navigation.navigate("General");
-                            }}
+                            onPress={() => navigation.navigate("Details", item)}
+                            activeOpacity={0.2}
                         >
                             <ImageBackground
                                 source={{
@@ -51,6 +49,25 @@ export default function Home({ title, navigation }) {
                                 style={styles.logo}
                                 imageStyle={{ borderRadius: 6 }}
                             >
+                                {item.watching_status === 1 && (
+                                    <View style={styles.badge}>
+                                        <Text style={styles.badgeText}>CW</Text>
+                                    </View>
+                                )}
+                                {item.watching_status === 2 && (
+                                    <View style={styles.badge}>
+                                        <Text style={styles.badgeText2}>
+                                            CMPL
+                                        </Text>
+                                    </View>
+                                )}
+                                {item.watching_status === 6 && (
+                                    <View style={styles.badge}>
+                                        <Text style={styles.badgeText3}>
+                                            PTW
+                                        </Text>
+                                    </View>
+                                )}
                                 <View style={styles.titleContainer}>
                                     <LinearGradient
                                         colors={["transparent", "black"]}
@@ -80,7 +97,6 @@ const styles = StyleSheet.create({
         padding: 3,
         backgroundColor: "white",
     },
-    list: {},
     opac: {
         height: 190,
         flex: 1 / 3,
@@ -91,7 +107,6 @@ const styles = StyleSheet.create({
         borderRadius: 6,
     },
     titleContainer: {
-        zIndex: 1,
         position: "absolute",
         bottom: 0,
         left: 0,
@@ -110,7 +125,7 @@ const styles = StyleSheet.create({
     },
     badge: {
         position: "absolute",
-        left: 5,
+        right: 5,
         top: 5,
     },
     badgeText: {
@@ -118,8 +133,26 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: "white",
         width: "100%",
-        paddingHorizontal: 6,
+        paddingHorizontal: 3,
         borderRadius: 4,
-        backgroundColor: "rgba(0,0,0,0.6)",
+        backgroundColor: "#47a84a",
+    },
+    badgeText2: {
+        fontFamily: "pt-sans-bold",
+        fontSize: 12,
+        color: "white",
+        width: "100%",
+        paddingHorizontal: 3,
+        borderRadius: 4,
+        backgroundColor: "#448AFF",
+    },
+    badgeText3: {
+        fontFamily: "pt-sans-bold",
+        fontSize: 12,
+        color: "white",
+        width: "100%",
+        paddingHorizontal: 3,
+        borderRadius: 4,
+        backgroundColor: "#212121",
     },
 });

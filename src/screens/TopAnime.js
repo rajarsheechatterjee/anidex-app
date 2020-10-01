@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
+import AnimeCard from "../components/AnimeCard";
+
 export default function Home({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [titles, setTitles] = useState();
@@ -59,33 +61,9 @@ export default function Home({ navigation }) {
                                 onPress={() =>
                                     navigation.navigate("Details", item)
                                 }
+                                activeOpacity={0.6}
                             >
-                                <ImageBackground
-                                    source={{
-                                        uri: item.image_url,
-                                    }}
-                                    style={styles.logo}
-                                    imageStyle={{ borderRadius: 6 }}
-                                >
-                                    <View style={styles.badge}>
-                                        <Text style={styles.badgeText}>
-                                            {item.rank}
-                                        </Text>
-                                    </View>
-                                    <View style={styles.titleContainer}>
-                                        <LinearGradient
-                                            colors={["transparent", "black"]}
-                                            style={styles.linearGradient}
-                                        >
-                                            <Text
-                                                numberOfLines={2}
-                                                style={styles.title}
-                                            >
-                                                {item.title}
-                                            </Text>
-                                        </LinearGradient>
-                                    </View>
-                                </ImageBackground>
+                                <AnimeCard item={item} />
                             </TouchableOpacity>
                         )}
                     />

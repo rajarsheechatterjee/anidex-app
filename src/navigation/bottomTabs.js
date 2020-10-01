@@ -6,6 +6,7 @@ import {
 } from "@react-navigation/native";
 import { AppearanceProvider, useColorScheme } from "react-native-appearance";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import HomeStack from "./homeStack";
 import ListStack from "./listStack";
 import SearchStack from "./searchStack";
