@@ -9,7 +9,11 @@ const Stack = createStackNavigator();
 function topAnimeStack() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Top Anime" component={TopAnime} />
+            <Stack.Screen
+                name="Top Anime"
+                component={TopAnime}
+                options={{ headerShown: false }}
+            />
             <Stack.Screen
                 name="Details"
                 component={Details}

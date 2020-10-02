@@ -9,84 +9,139 @@ import {
     ImageBackground,
     SafeAreaView,
 } from "react-native";
+import { Provider, TouchableRipple, Appbar, Menu } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
+
+// Custom
+import AnimeListCard from "../components/AnimeListCard";
 
 export default function List({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [titles, setTitles] = useState([]);
+    const [filterBy, setFilterBy] = useState("all");
+
+    // Menu
+    const [visible, setVisible] = useState(false);
+    const openMenu = () => setVisible(true);
+    const closeMenu = () => setVisible(false);
 
     useEffect(() => {
-        fetch(`https://api.jikan.moe/v3/user/stroheimrequiem/animelist`)
+        fetch(
+            `https://api.jikan.moe/v3/user/stroheimrequiem/animelist/${filterBy}`
+        )
             .then((response) => response.json())
             .then((json) => setTitles(json.anime))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
-    }, []);
+    }, [filterBy]);
+
+    const handleFilterName = () => {
+        if (filterBy === "all") return "All";
+        if (filterBy === "watching") return "Currently Watching";
+        if (filterBy === "completed") return "Completed";
+        if (filterBy === "onhold") return "On Hold";
+        if (filterBy === "plantowatch") return "Plan to watch";
+        if (filterBy === "dropped") return "Dropped";
+    };
 
     return (
-        <SafeAreaView style={styles.container}>
-            {isLoading ? (
-                <View style={{ flex: 1, justifyContent: "center" }}>
-                    <ActivityIndicator size="large" color="blue" />
-                </View>
-            ) : (
-                <FlatList
-                    contentContainerStyle={styles.list}
-                    numColumns={3}
-                    data={titles}
-                    showsVerticalScrollIndicator={false}
-                    keyExtractor={(item) => item.mal_id.toString()}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity
-                            style={styles.opac}
-                            onPress={() => navigation.navigate("Details", item)}
-                            activeOpacity={0.2}
-                        >
-                            <ImageBackground
-                                source={{
-                                    uri: item.image_url,
-                                }}
-                                style={styles.logo}
-                                imageStyle={{ borderRadius: 6 }}
-                            >
-                                {item.watching_status === 1 && (
-                                    <View style={styles.badge}>
-                                        <Text style={styles.badgeText}>CW</Text>
-                                    </View>
-                                )}
-                                {item.watching_status === 2 && (
-                                    <View style={styles.badge}>
-                                        <Text style={styles.badgeText2}>
-                                            CMPL
-                                        </Text>
-                                    </View>
-                                )}
-                                {item.watching_status === 6 && (
-                                    <View style={styles.badge}>
-                                        <Text style={styles.badgeText3}>
-                                            PTW
-                                        </Text>
-                                    </View>
-                                )}
-                                <View style={styles.titleContainer}>
-                                    <LinearGradient
-                                        colors={["transparent", "black"]}
-                                        style={styles.linearGradient}
-                                    >
-                                        <Text
-                                            numberOfLines={2}
-                                            style={styles.title}
-                                        >
-                                            {item.title}
-                                        </Text>
-                                    </LinearGradient>
-                                </View>
-                            </ImageBackground>
-                        </TouchableOpacity>
-                    )}
+        <Provider>
+            <Appbar.Header style={{ backgroundColor: "white" }}>
+                <Appbar.Content
+                    title="StroheimRequiem's List"
+                    subtitle={handleFilterName()}
                 />
-            )}
-        </SafeAreaView>
+                {/* <Appbar.Action icon="filter-variant" onPress={() => {}} /> */}
+
+                <Menu
+                    visible={visible}
+                    onDismiss={closeMenu}
+                    anchor={
+                        <Appbar.Action
+                            icon="filter-variant"
+                            onPress={openMenu}
+                        />
+                    }
+                >
+                    <Menu.Item
+                        onPress={() => {
+                            setLoading(true);
+                            setFilterBy("all");
+                            closeMenu();
+                        }}
+                        title="All"
+                    />
+                    <Menu.Item
+                        onPress={() => {
+                            setLoading(true);
+                            setFilterBy("watching");
+                            closeMenu();
+                        }}
+                        title="Watching"
+                    />
+                    <Menu.Item
+                        onPress={() => {
+                            setLoading(true);
+                            setFilterBy("completed");
+                            closeMenu();
+                        }}
+                        title="Completed"
+                    />
+                    <Menu.Item
+                        onPress={() => {
+                            setLoading(true);
+                            setFilterBy("plantowatch");
+                            closeMenu();
+                        }}
+                        title="Plan to watch"
+                    />
+                    <Menu.Item
+                        onPress={() => {
+                            setLoading(true);
+                            setFilterBy("onhold");
+                            closeMenu();
+                        }}
+                        title="On Hold"
+                    />
+                    <Menu.Item
+                        onPress={() => {
+                            setLoading(true);
+                            setFilterBy("dropped");
+                            closeMenu();
+                        }}
+                        title="Dropped"
+                    />
+                </Menu>
+            </Appbar.Header>
+            <View style={styles.container}>
+                {isLoading ? (
+                    <View style={{ flex: 1, justifyContent: "center" }}>
+                        <ActivityIndicator size="large" color="blue" />
+                    </View>
+                ) : (
+                    <FlatList
+                        contentContainerStyle={styles.list}
+                        numColumns={3}
+                        data={titles}
+                        showsVerticalScrollIndicator={false}
+                        keyExtractor={(item) => item.mal_id.toString()}
+                        renderItem={({ item }) => (
+                            <TouchableRipple
+                                borderless
+                                centered
+                                rippleColor="rgba(256,256,256,0.3)"
+                                style={styles.opac}
+                                onPress={() =>
+                                    navigation.navigate("Details", item)
+                                }
+                            >
+                                <AnimeListCard item={item} />
+                            </TouchableRipple>
+                        )}
+                    />
+                )}
+            </View>
+        </Provider>
     );
 }
 
@@ -101,58 +156,5 @@ const styles = StyleSheet.create({
         height: 190,
         flex: 1 / 3,
         margin: 3.2,
-    },
-    logo: {
-        height: "100%",
-        borderRadius: 6,
-    },
-    titleContainer: {
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-        borderRadius: 6,
-    },
-    title: {
-        fontFamily: "pt-sans-bold",
-        fontSize: 15,
-        color: "white",
-        padding: 5,
-        width: "100%",
-    },
-    linearGradient: {
-        borderRadius: 6,
-    },
-    badge: {
-        position: "absolute",
-        right: 5,
-        top: 5,
-    },
-    badgeText: {
-        fontFamily: "pt-sans-bold",
-        fontSize: 12,
-        color: "white",
-        width: "100%",
-        paddingHorizontal: 3,
-        borderRadius: 4,
-        backgroundColor: "#47a84a",
-    },
-    badgeText2: {
-        fontFamily: "pt-sans-bold",
-        fontSize: 12,
-        color: "white",
-        width: "100%",
-        paddingHorizontal: 3,
-        borderRadius: 4,
-        backgroundColor: "#448AFF",
-    },
-    badgeText3: {
-        fontFamily: "pt-sans-bold",
-        fontSize: 12,
-        color: "white",
-        width: "100%",
-        paddingHorizontal: 3,
-        borderRadius: 4,
-        backgroundColor: "#212121",
     },
 });

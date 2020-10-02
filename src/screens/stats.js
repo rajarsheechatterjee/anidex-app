@@ -33,7 +33,7 @@ export default function General({ title }) {
                 {title.opening_themes && (
                     <FlatList
                         data={title.opening_themes}
-                        keyExtractor={(item) => item.key}
+                        keyExtractor={(index) => index}
                         renderItem={({ item, index }) => (
                             <Text
                                 numberOfLines={1}
@@ -55,7 +55,7 @@ export default function General({ title }) {
                 {title.ending_themes && (
                     <FlatList
                         data={title.ending_themes}
-                        keyExtractor={(item) => item.key}
+                        keyExtractor={(index) => index}
                         renderItem={({ item, index }) => (
                             <Text
                                 numberOfLines={1}

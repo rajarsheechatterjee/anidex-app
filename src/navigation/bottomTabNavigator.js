@@ -5,33 +5,53 @@ import {
     DarkTheme,
 } from "@react-navigation/native";
 import { AppearanceProvider, useColorScheme } from "react-native-appearance";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
-import HomeStack from "./homeStack";
+import topAnimeStack from "./topAnimeStack";
 import ListStack from "./listStack";
 import SearchStack from "./searchStack";
+import SeasonalStack from "./seasonalStack";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { MaterialIcons } from "@expo/vector-icons";
+import seasonalStack from "./seasonalStack";
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 function BottomTabsNavigator() {
     const scheme = useColorScheme();
     return (
         <AppearanceProvider>
             <NavigationContainer>
-                <Tab.Navigator>
+                <Tab.Navigator
+                    activeColor="black"
+                    barStyle={{ backgroundColor: "white" }}
+                    shifting={false}
+                >
                     <Tab.Screen
                         name="Home"
-                        component={HomeStack}
+                        component={topAnimeStack}
                         options={{
                             tabBarLabel: "Top Anime",
-                            tabBarIcon: ({ color, size }) => (
+                            tabBarIcon: ({ color }) => (
                                 <MaterialIcons
                                     name="collections-bookmark"
                                     color={color}
-                                    size={size}
+                                    size={22}
+                                />
+                            ),
+                        }}
+                    />
+                    <Tab.Screen
+                        name="Seasonal"
+                        component={seasonalStack}
+                        options={{
+                            tabBarLabel: "Fall 2020",
+                            tabBarIcon: ({ color }) => (
+                                <MaterialCommunityIcons
+                                    name="compass"
+                                    color={color}
+                                    size={22}
                                 />
                             ),
                         }}
@@ -41,11 +61,11 @@ function BottomTabsNavigator() {
                         component={SearchStack}
                         options={{
                             tabBarLabel: "Search",
-                            tabBarIcon: ({ color, size }) => (
+                            tabBarIcon: ({ color }) => (
                                 <MaterialCommunityIcons
                                     name="magnify"
                                     color={color}
-                                    size={size}
+                                    size={22}
                                 />
                             ),
                         }}
@@ -55,11 +75,11 @@ function BottomTabsNavigator() {
                         component={ListStack}
                         options={{
                             tabBarLabel: "Anime List",
-                            tabBarIcon: ({ color, size }) => (
+                            tabBarIcon: ({ color }) => (
                                 <MaterialCommunityIcons
                                     name="format-list-bulleted"
                                     color={color}
-                                    size={size}
+                                    size={22}
                                 />
                             ),
                         }}

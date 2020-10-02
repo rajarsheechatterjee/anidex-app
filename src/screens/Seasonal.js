@@ -1,68 +1,93 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
-    View,
-    Text,
     ActivityIndicator,
+    View,
     FlatList,
+    Alert,
+    Text,
     TouchableOpacity,
-    Modal,
-    TextInput,
-    TouchableWithoutFeedback,
-    Keyboard,
     ImageBackground,
 } from "react-native";
-import { Appbar, TouchableRipple } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
-// import SearchBar from "react-native-dynamic-search-bar";
+import {
+    TouchableRipple,
+    Appbar,
+    Provider,
+    Menu,
+    Divider,
+} from "react-native-paper";
 
-export default function Details({ route, navigation }) {
+export default function SeasonScreen({ navigation }) {
     const [isLoading, setLoading] = useState(false);
     const [titles, setTitles] = useState([]);
-    const [searchText, setSearchText] = useState("");
+    const [season, setSeason] = useState("fall");
+    const [year, setYear] = useState(2020);
 
-    const getTitles = (searchText) => {
-        setLoading(true);
-        fetch(`https://api.jikan.moe/v3/search/anime?q=${searchText}`)
+    useEffect(() => {
+        fetch(`https://api.jikan.moe/v3/season/${year}/${season}`)
             .then((response) => response.json())
-            .then((json) => setTitles(json.results))
+            .then((json) => setTitles(json.anime))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
+    }, [season, year]);
+
+    const handleNextSeason = () => {
+        if (season === "winter") setSeason("spring");
+        if (season === "spring") setSeason("summer");
+        if (season === "summer") setSeason("fall");
+        if (season === "fall") {
+            setSeason("winter");
+            setYear(year + 1);
+        }
+    };
+
+    const handlePreviousSeason = () => {
+        if (season === "spring") setSeason("winter");
+        if (season === "summer") setSeason("spring");
+        if (season === "fall") setSeason("summer");
+        if (season === "winter") {
+            setSeason("fall");
+            setYear(year - 1);
+        }
+    };
+
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     };
 
     return (
         <>
-            <Appbar.Header style={{ backgroundColor: "white" }}>
-                <Appbar.Action icon="magnify" />
-                <TextInput
-                    placeholder="Search..."
-                    defaultValue={searchText}
-                    style={{ fontSize: 17, flex: 1 }}
-                    blurOnSubmit={true}
-                    onChangeText={async (text) => {
-                        await setSearchText(text);
-                        getTitles(searchText);
+            <Appbar.Header
+                style={{
+                    backgroundColor: "white",
+                }}
+            >
+                <Appbar.Content
+                    title={
+                        capitalizeFirstLetter(season) +
+                        " " +
+                        year +
+                        " " +
+                        "Season"
+                    }
+                />
+                <Appbar.Action
+                    icon="chevron-left"
+                    onPress={() => {
+                        setLoading(true);
+                        handlePreviousSeason();
                     }}
                 />
-                {searchText !== "" && (
-                    <Appbar.Action
-                        icon="close"
-                        onPress={() => {
-                            setSearchText("");
-                        }}
-                    />
-                )}
+                <Appbar.Action
+                    icon="chevron-right"
+                    onPress={() => {
+                        setLoading(true);
+                        handleNextSeason();
+                    }}
+                />
             </Appbar.Header>
             <View style={styles.container}>
-                {/* <SearchBar
-                iconColor="#3f51b5"
-                placeholder="Search here"
-                onChangeText={getTitles}
-                onPressCancel={() => {
-                    setTitles([]);
-                }}
-                onPressToFocus
-            /> */}
                 {isLoading ? (
                     <View style={{ flex: 1, justifyContent: "center" }}>
                         <ActivityIndicator size="large" color="blue" />

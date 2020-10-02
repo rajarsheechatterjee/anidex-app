@@ -72,6 +72,6 @@ const styles = StyleSheet.create({
         width: "100%",
         paddingHorizontal: 6,
         borderRadius: 4,
-        backgroundColor: "rgba(0,0,0,0.6)",
+        backgroundColor: "rgba(0,0,0,0.8)",
     },
 });

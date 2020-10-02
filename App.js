@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
-import Navigator from "./src/navigation/bottomTabs";
+import Navigator from "./src/navigation/bottomTabNavigator";
 import { StatusBar } from "react-native";
 
 const getFonts = () =>

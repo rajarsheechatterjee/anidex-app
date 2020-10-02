@@ -3,73 +3,159 @@ import {
     StyleSheet,
     ActivityIndicator,
     View,
-    Text,
     FlatList,
-    TouchableOpacity,
-    ImageBackground,
-    Button,
+    Alert,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import {
+    TouchableRipple,
+    Appbar,
+    Provider,
+    Menu,
+    Divider,
+} from "react-native-paper";
 
+// Custom
+import { Button } from "../components/Button";
 import AnimeCard from "../components/AnimeCard";
 
 export default function Home({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [titles, setTitles] = useState();
+    const [sortBy, setSortBy] = useState("");
     const [pageNo, setPageNo] = useState(2);
 
+    const [visible, setVisible] = useState(false);
+
+    const openMenu = () => setVisible(true);
+
+    const closeMenu = () => setVisible(false);
+
     useEffect(() => {
-        fetch(`https://api.jikan.moe/v3/top/anime`)
+        fetch(`https://api.jikan.moe/v3/top/anime/1/${sortBy}`)
             .then((response) => response.json())
             .then((json) => setTitles(json.top))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
-    }, []);
+    }, [sortBy]);
 
     const handleLoadMore = async () => {
-        fetch(`https://api.jikan.moe/v3/top/anime/${pageNo}`)
+        fetch(`https://api.jikan.moe/v3/top/anime/${pageNo}/${sortBy}`)
             .then((response) => response.json())
             .then((json) => setTitles((titles) => titles.concat(json.top)))
             .catch((error) => console.error(error))
             .finally(() => setPageNo(pageNo + 1));
     };
 
+    const handleFilterName = () => {
+        if (sortBy === "") return "By Rating";
+        if (sortBy === "upcoming") return "By Upcoming";
+        if (sortBy === "bypopularity") return "By Popularity";
+        if (sortBy === "airing") return "By Airing";
+    };
+
     return (
-        <View style={styles.container}>
-            {isLoading ? (
-                <View style={{ flex: 1, justifyContent: "center" }}>
-                    <ActivityIndicator size="large" color="blue" />
-                </View>
-            ) : (
-                <>
-                    <FlatList
-                        contentContainerStyle={styles.list}
-                        numColumns={3}
-                        data={titles}
-                        extraData={titles}
-                        showsVerticalScrollIndicator={false}
-                        ListFooterComponent={
-                            <Button
-                                title="XD"
-                                onPress={() => handleLoadMore()}
-                            />
-                        }
-                        keyExtractor={(item) => item.mal_id.toString()}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                                style={styles.opac}
-                                onPress={() =>
-                                    navigation.navigate("Details", item)
-                                }
-                                activeOpacity={0.6}
-                            >
-                                <AnimeCard item={item} />
-                            </TouchableOpacity>
-                        )}
+        <Provider>
+            <Appbar.Header style={{ backgroundColor: "white" }}>
+                <Appbar.Content
+                    title="Top Anime"
+                    subtitle={handleFilterName()}
+                />
+                {/* <Appbar.Action icon="filter-variant" onPress={() => {}} /> */}
+
+                <Menu
+                    visible={visible}
+                    onDismiss={closeMenu}
+                    anchor={
+                        <Appbar.Action
+                            icon="filter-variant"
+                            onPress={openMenu}
+                        />
+                    }
+                >
+                    <Menu.Item
+                        onPress={() => {
+                            closeMenu();
+                            setLoading(true);
+                            setPageNo(2);
+                            setSortBy("");
+                        }}
+                        title="By Rating"
                     />
-                </>
-            )}
-        </View>
+                    <Menu.Item
+                        onPress={() => {
+                            closeMenu();
+                            setLoading(true);
+                            setPageNo(2);
+                            setSortBy("bypopularity");
+                        }}
+                        title="By Popularity"
+                    />
+                    <Menu.Item
+                        onPress={() => {
+                            closeMenu();
+                            setLoading(true);
+                            setPageNo(2);
+                            setSortBy("airing");
+                        }}
+                        title="By Airing"
+                    />
+                    <Menu.Item
+                        onPress={() => {
+                            closeMenu();
+                            setLoading(true);
+                            setPageNo(2);
+                            setSortBy("upcoming");
+                        }}
+                        title="By Upcoming"
+                    />
+                </Menu>
+            </Appbar.Header>
+            <View style={styles.container}>
+                {isLoading ? (
+                    <View style={{ flex: 1, justifyContent: "center" }}>
+                        <ActivityIndicator size="large" color="blue" />
+                    </View>
+                ) : (
+                    <>
+                        <FlatList
+                            contentContainerStyle={styles.list}
+                            numColumns={3}
+                            data={titles}
+                            extraData={titles}
+                            showsVerticalScrollIndicator={false}
+                            ListFooterComponent={
+                                <View
+                                    style={{
+                                        flex: 1,
+                                        alignItems: "center",
+                                        marginVertical: 10,
+                                    }}
+                                >
+                                    <Button
+                                        title="Load More"
+                                        handleLoadMore={handleLoadMore}
+                                    />
+                                </View>
+                            }
+                            keyExtractor={(item) => item.mal_id.toString()}
+                            renderItem={({ item }) => (
+                                <TouchableRipple
+                                    borderless
+                                    centered
+                                    rippleColor="rgba(256,256,256,0.3)"
+                                    style={styles.opac}
+                                    onPress={() =>
+                                        navigation.navigate("Details", item)
+                                    }
+                                >
+                                    <AnimeCard item={item} />
+                                </TouchableRipple>
+                            )}
+                        />
+                    </>
+                )}
+            </View>
+        </Provider>
     );
 }
 

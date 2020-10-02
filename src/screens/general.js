@@ -4,7 +4,7 @@ import { FlatList } from "react-native-gesture-handler";
 
 export default function General({ title }) {
     return (
-        <View>
+        <View style={{ flex: 1 }}>
             <View style={styles.mainContainer}>
                 <View style={styles.statsContainer}>
                     <View style={styles.details}>
@@ -34,7 +34,11 @@ export default function General({ title }) {
                     <View style={styles.details}>
                         <View style={styles.stat}>
                             <Text style={styles.episode}>Start </Text>
-                            <Text>{title.aired.from.substring(0, 10)}</Text>
+                            {title.aired.from ? (
+                                <Text>{title.aired.from.substring(0, 10)}</Text>
+                            ) : (
+                                <Text>?</Text>
+                            )}
                         </View>
                         <View style={styles.stat}>
                             <Text style={styles.episode}>End </Text>
@@ -51,17 +55,17 @@ export default function General({ title }) {
                         horizontal
                         data={title.genres}
                         keyExtractor={(item) => item.mal_id.toString()}
-                        renderItem={({ item, index }) => (
+                        renderItem={({ item }) => (
                             <Text style={styles.genre}>{item.name}</Text>
                         )}
                     />
                 </View>
                 <View style={{ marginTop: 10, alignItems: "center" }}>
-                    <Text style={styles.summary}>Synopsiss</Text>
+                    <Text style={styles.summary}>Synopsis</Text>
                     <Text style={styles.synopsis}>{title.synopsis}</Text>
                     {title.background && (
                         <View>
-                            <Text style={styles.summary}>Backgroundd</Text>
+                            <Text style={styles.summary}>Background</Text>
                             <Text style={styles.synopsis}>
                                 {title.background}
                             </Text>

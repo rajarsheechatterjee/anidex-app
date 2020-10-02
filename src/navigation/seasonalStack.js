@@ -1,13 +1,18 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import Season from "../screens/Seasonal";
 import Details from "../screens/details";
 
 const Stack = createStackNavigator();
 
-function recomStack({ title, navigation }) {
+function seasonalStack() {
     return (
         <Stack.Navigator>
-            <Stack.Screen component={Details} />
+            <Stack.Screen
+                name="Season"
+                component={Season}
+                options={{ headerShown: false }}
+            />
             <Stack.Screen
                 name="Details"
                 component={Details}
@@ -17,4 +22,4 @@ function recomStack({ title, navigation }) {
     );
 }
 
-export default recomStack;
+export default seasonalStack;
