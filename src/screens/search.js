@@ -16,6 +16,9 @@ import { Appbar, TouchableRipple } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 // import SearchBar from "react-native-dynamic-search-bar";
 
+// Custom
+import Colors from "../theming/colors";
+
 export default function Details({ route, navigation }) {
     const [isLoading, setLoading] = useState(false);
     const [titles, setTitles] = useState([]);
@@ -32,12 +35,19 @@ export default function Details({ route, navigation }) {
 
     return (
         <>
-            <Appbar.Header style={{ backgroundColor: "white" }}>
-                <Appbar.Action icon="magnify" />
+            <Appbar.Header style={{ backgroundColor: Colors.headerColor }}>
+                <Appbar.BackAction
+                    onPress={() => {
+                        navigation.navigate("Top Anime");
+                    }}
+                    color={Colors.headerIcon}
+                    size={26}
+                />
                 <TextInput
                     placeholder="Search Anime Titles..."
                     defaultValue={searchText}
-                    style={{ fontSize: 17, flex: 1 }}
+                    style={{ fontSize: 17, flex: 1, color: Colors.headerText }}
+                    placeholderTextColor="#e0e0e0"
                     blurOnSubmit={true}
                     onChangeText={async (text) => {
                         await setSearchText(text);
@@ -50,6 +60,7 @@ export default function Details({ route, navigation }) {
                         onPress={() => {
                             setSearchText("");
                         }}
+                        color={Colors.headerIcon}
                     />
                 )}
             </Appbar.Header>

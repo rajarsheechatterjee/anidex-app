@@ -5,7 +5,10 @@ import {
     DarkTheme,
 } from "@react-navigation/native";
 import { AppearanceProvider, useColorScheme } from "react-native-appearance";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import {
+    createDrawerNavigator,
+    DrawerContentScrollView,
+} from "@react-navigation/drawer";
 
 import topAnimeStack from "./topAnimeStack";
 import ListStack from "./listStack";
@@ -15,93 +18,71 @@ import topMangaStack from "./topMangaStack";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Drawer as PaperDrawer } from "react-native-paper";
 
-const Tab = createMaterialBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
-function BottomTabsNavigator() {
+function BottomTabsNavigator({ navigation }) {
     const scheme = useColorScheme();
     return (
         <AppearanceProvider>
             <NavigationContainer>
-                <Tab.Navigator
-                    activeColor="black"
-                    barStyle={{ backgroundColor: "white" }}
-                    shifting={false}
+                <Drawer.Navigator
+                    drawerContent={(props) => <CustomDrawer {...props} />}
                 >
-                    <Tab.Screen
-                        name="Home"
-                        component={topAnimeStack}
-                        options={{
-                            tabBarLabel: "Top Anime",
-                            tabBarIcon: ({ color }) => (
-                                <MaterialIcons
-                                    name="collections-bookmark"
-                                    color={color}
-                                    size={22}
-                                />
-                            ),
-                        }}
-                    />
-                    <Tab.Screen
-                        name="Top Manga"
-                        component={topMangaStack}
-                        options={{
-                            tabBarLabel: "Top Manga",
-                            tabBarIcon: ({ color }) => (
-                                <MaterialIcons
-                                    name="bookmark"
-                                    color={color}
-                                    size={22}
-                                />
-                            ),
-                        }}
-                    />
-                    <Tab.Screen
-                        name="Seasonal"
-                        component={seasonalStack}
-                        options={{
-                            tabBarLabel: "Fall 2020",
-                            tabBarIcon: ({ color }) => (
-                                <MaterialCommunityIcons
-                                    name="compass"
-                                    color={color}
-                                    size={22}
-                                />
-                            ),
-                        }}
-                    />
-                    <Tab.Screen
-                        name="Search"
-                        component={SearchStack}
-                        options={{
-                            tabBarLabel: "Search",
-                            tabBarIcon: ({ color }) => (
-                                <MaterialCommunityIcons
-                                    name="magnify"
-                                    color={color}
-                                    size={22}
-                                />
-                            ),
-                        }}
-                    />
-                    <Tab.Screen
-                        name="List"
-                        component={ListStack}
-                        options={{
-                            tabBarLabel: "Anime List",
-                            tabBarIcon: ({ color }) => (
-                                <MaterialCommunityIcons
-                                    name="format-list-bulleted"
-                                    color={color}
-                                    size={22}
-                                />
-                            ),
-                        }}
-                    />
-                </Tab.Navigator>
+                    <Drawer.Screen name="Top Anime" component={topAnimeStack} />
+                    <Drawer.Screen name="Top Manga" component={topMangaStack} />
+                    <Drawer.Screen name="Seasonal" component={seasonalStack} />
+                    <Drawer.Screen name="Search" component={SearchStack} />
+                    <Drawer.Screen name="List" component={ListStack} />
+                </Drawer.Navigator>
             </NavigationContainer>
         </AppearanceProvider>
     );
 }
+
+const CustomDrawer = ({ navigation }) => {
+    const [active, setActive] = React.useState("");
+
+    return (
+        <DrawerContentScrollView>
+            <PaperDrawer.Section title="Anime">
+                <PaperDrawer.Item
+                    icon={() => (
+                        <MaterialIcons name="collections-bookmark" size={22} />
+                    )}
+                    label="Top Anime"
+                    active={active === "first"}
+                    onPress={() => {
+                        setActive("first");
+                        navigation.navigate("Top Anime");
+                    }}
+                />
+                <PaperDrawer.Item
+                    icon={() => (
+                        <MaterialCommunityIcons name="compass" size={22} />
+                    )}
+                    label="Seasonal Anime"
+                    active={active === "second"}
+                    onPress={() => {
+                        setActive("second");
+                        navigation.navigate("Seasonal");
+                    }}
+                />
+                <PaperDrawer.Item
+                    icon={() => (
+                        <MaterialCommunityIcons name="magnify" size={22} />
+                    )}
+                    label="Search"
+                    active={active === "third"}
+                    onPress={() => {
+                        setActive("third");
+                        navigation.navigate("Search");
+                    }}
+                />
+            </PaperDrawer.Section>
+        </DrawerContentScrollView>
+    );
+};
 
 export default BottomTabsNavigator;

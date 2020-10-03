@@ -17,6 +17,7 @@ import {
 
 // Custom
 import { Button } from "../components/Button";
+import Colors from "../theming/colors";
 import AnimeCard from "../components/AnimeCard";
 
 export default function Home({ navigation }) {
@@ -58,11 +59,21 @@ export default function Home({ navigation }) {
 
     return (
         <Provider>
-            <Appbar.Header style={{ backgroundColor: "white" }}>
+            <Appbar.Header style={{ backgroundColor: Colors.headerColor }}>
+                <Appbar.Action
+                    icon="menu"
+                    size={26}
+                    onPress={() => {
+                        navigation.openDrawer();
+                    }}
+                    color={Colors.headerIcon}
+                />
                 <Appbar.Content
                     title="Top Manga"
                     subtitle={handleFilterName()}
                     onPress={openMenu}
+                    titleStyle={{ color: Colors.headerText }}
+                    subtitleStyle={{ color: Colors.headerSubtitle }}
                 />
                 {/* <Appbar.Action icon="filter-variant" onPress={() => {}} /> */}
 
@@ -72,7 +83,9 @@ export default function Home({ navigation }) {
                     anchor={
                         <Appbar.Action
                             icon="filter-variant"
+                            size={26}
                             onPress={openMenu}
+                            color={Colors.headerIcon}
                         />
                     }
                 >

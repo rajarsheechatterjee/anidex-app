@@ -18,8 +18,11 @@ import {
     Divider,
 } from "react-native-paper";
 
+// Custom
+import Colors from "../theming/colors";
+
 export default function SeasonScreen({ navigation }) {
-    const [isLoading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(true);
     const [titles, setTitles] = useState([]);
     const [season, setSeason] = useState("fall");
     const [year, setYear] = useState(2020);
@@ -52,6 +55,13 @@ export default function SeasonScreen({ navigation }) {
         }
     };
 
+    const handleMonths = () => {
+        if (season === "spring") return "Apr - Jun";
+        if (season === "summer") return "Jul - Sep";
+        if (season === "fall") return "Oct - Dec";
+        if (season === "winter") return "Jan - Mar";
+    };
+
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     };
@@ -60,31 +70,40 @@ export default function SeasonScreen({ navigation }) {
         <>
             <Appbar.Header
                 style={{
-                    backgroundColor: "white",
+                    backgroundColor: Colors.headerColor,
                 }}
             >
+                <Appbar.Action
+                    icon="menu"
+                    size={26}
+                    onPress={() => {
+                        navigation.openDrawer();
+                    }}
+                    color={Colors.headerIcon}
+                />
                 <Appbar.Content
-                    title={
-                        capitalizeFirstLetter(season) +
-                        " " +
-                        year +
-                        " " +
-                        "Season"
-                    }
+                    title={capitalizeFirstLetter(season) + " " + year}
+                    subtitle={handleMonths()}
+                    titleStyle={{ color: Colors.headerText }}
+                    subtitleStyle={{ color: Colors.headerSubtitle }}
                 />
                 <Appbar.Action
                     icon="chevron-left"
+                    size={26}
                     onPress={() => {
                         setLoading(true);
                         handlePreviousSeason();
                     }}
+                    color={Colors.headerIcon}
                 />
                 <Appbar.Action
                     icon="chevron-right"
+                    size={26}
                     onPress={() => {
                         setLoading(true);
                         handleNextSeason();
                     }}
+                    color={Colors.headerIcon}
                 />
             </Appbar.Header>
             <View style={styles.container}>

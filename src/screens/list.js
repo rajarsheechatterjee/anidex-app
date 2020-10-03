@@ -14,6 +14,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 // Custom
 import AnimeListCard from "../components/AnimeListCard";
+import Colors from "../theming/colors";
 
 export default function List({ navigation }) {
     const [isLoading, setLoading] = useState(true);
@@ -46,10 +47,20 @@ export default function List({ navigation }) {
 
     return (
         <Provider>
-            <Appbar.Header style={{ backgroundColor: "white" }}>
+            <Appbar.Header style={{ backgroundColor: Colors.headerColor }}>
+                <Appbar.Action
+                    icon="menu"
+                    size={26}
+                    onPress={() => {
+                        navigation.openDrawer();
+                    }}
+                    color={Colors.headerIcon}
+                />
                 <Appbar.Content
                     title="StroheimRequiem's List"
                     subtitle={handleFilterName()}
+                    titleStyle={{ color: Colors.headerText }}
+                    subtitleStyle={{ color: Colors.headerSubtitle }}
                 />
                 {/* <Appbar.Action icon="filter-variant" onPress={() => {}} /> */}
 
@@ -59,7 +70,9 @@ export default function List({ navigation }) {
                     anchor={
                         <Appbar.Action
                             icon="filter-variant"
+                            size={26}
                             onPress={openMenu}
+                            color={Colors.headerIcon}
                         />
                     }
                 >
