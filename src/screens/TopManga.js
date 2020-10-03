@@ -5,6 +5,7 @@ import {
     View,
     FlatList,
     Alert,
+    Text,
 } from "react-native";
 import {
     TouchableRipple,
@@ -29,12 +30,8 @@ export default function Home({ navigation }) {
     const openMenu = () => setVisible(true);
     const closeMenu = () => setVisible(false);
 
-    // Switch
-    const [isSwitchOn, setIsSwitchOn] = useState(false);
-    const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
-
     useEffect(() => {
-        fetch(`https://api.jikan.moe/v3/top/anime/1/${sortBy}`)
+        fetch(`https://api.jikan.moe/v3/top/manga/1/${sortBy}`)
             .then((response) => response.json())
             .then((json) => setTitles(json.top))
             .catch((error) => console.error(error))
@@ -42,7 +39,7 @@ export default function Home({ navigation }) {
     }, [sortBy]);
 
     const handleLoadMore = async () => {
-        fetch(`https://api.jikan.moe/v3/top/anime/${pageNo}/${sortBy}`)
+        fetch(`https://api.jikan.moe/v3/top/manga/${pageNo}/${sortBy}`)
             .then((response) => response.json())
             .then((json) => setTitles((titles) => titles.concat(json.top)))
             .catch((error) => console.error(error))
@@ -51,16 +48,19 @@ export default function Home({ navigation }) {
 
     const handleFilterName = () => {
         if (sortBy === "") return "By Rating";
-        if (sortBy === "upcoming") return "By Upcoming";
+        // if (sortBy === "manga") return "Manga";
+        if (sortBy === "novels") return "Novels";
+        // if (sortBy === "oneshots") return "OneShots";
+        // if (sortBy === "doujin") return "Doujins";
+        if (sortBy === "manhwa") return "Manhwa";
         if (sortBy === "bypopularity") return "By Popularity";
-        if (sortBy === "airing") return "By Airing";
     };
 
     return (
         <Provider>
             <Appbar.Header style={{ backgroundColor: "white" }}>
                 <Appbar.Content
-                    title="Top Anime"
+                    title="Top Manga"
                     subtitle={handleFilterName()}
                     onPress={openMenu}
                 />
@@ -99,18 +99,18 @@ export default function Home({ navigation }) {
                             closeMenu();
                             setLoading(true);
                             setPageNo(2);
-                            setSortBy("airing");
+                            setSortBy("manhwa");
                         }}
-                        title="By Airing"
+                        title="By Manhwa"
                     />
                     <Menu.Item
                         onPress={() => {
                             closeMenu();
                             setLoading(true);
                             setPageNo(2);
-                            setSortBy("upcoming");
+                            setSortBy("novels");
                         }}
-                        title="By Upcoming"
+                        title="By Novels"
                     />
                 </Menu>
             </Appbar.Header>
@@ -148,9 +148,9 @@ export default function Home({ navigation }) {
                                     centered
                                     rippleColor="rgba(256,256,256,0.3)"
                                     style={styles.opac}
-                                    onPress={() =>
-                                        navigation.navigate("Details", item)
-                                    }
+                                    // onPress={() =>
+                                    //     navigation.navigate("Details", item)
+                                    // }
                                 >
                                     <AnimeCard item={item} />
                                 </TouchableRipple>

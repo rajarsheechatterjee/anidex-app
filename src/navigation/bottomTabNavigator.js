@@ -10,11 +10,11 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import topAnimeStack from "./topAnimeStack";
 import ListStack from "./listStack";
 import SearchStack from "./searchStack";
-import SeasonalStack from "./seasonalStack";
+import seasonalStack from "./seasonalStack";
+import topMangaStack from "./topMangaStack";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { MaterialIcons } from "@expo/vector-icons";
-import seasonalStack from "./seasonalStack";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -36,6 +36,20 @@ function BottomTabsNavigator() {
                             tabBarIcon: ({ color }) => (
                                 <MaterialIcons
                                     name="collections-bookmark"
+                                    color={color}
+                                    size={22}
+                                />
+                            ),
+                        }}
+                    />
+                    <Tab.Screen
+                        name="Top Manga"
+                        component={topMangaStack}
+                        options={{
+                            tabBarLabel: "Top Manga",
+                            tabBarIcon: ({ color }) => (
+                                <MaterialIcons
+                                    name="bookmark"
                                     color={color}
                                     size={22}
                                 />

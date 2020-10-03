@@ -35,7 +35,7 @@ export default function Details({ route, navigation }) {
             <Appbar.Header style={{ backgroundColor: "white" }}>
                 <Appbar.Action icon="magnify" />
                 <TextInput
-                    placeholder="Search..."
+                    placeholder="Search Anime Titles..."
                     defaultValue={searchText}
                     style={{ fontSize: 17, flex: 1 }}
                     blurOnSubmit={true}
