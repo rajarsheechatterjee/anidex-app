@@ -16,7 +16,10 @@ function seasonalStack() {
             <Stack.Screen
                 name="Details"
                 component={Details}
-                options={({ route }) => ({ title: route.params.title })}
+                options={({ route }) => ({
+                    title: route.params.title,
+                    headerShown: false,
+                })}
             />
         </Stack.Navigator>
     );

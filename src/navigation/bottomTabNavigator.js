@@ -80,6 +80,26 @@ const CustomDrawer = ({ navigation }) => {
                         navigation.navigate("Search");
                     }}
                 />
+                <PaperDrawer.Item
+                    icon={() => <MaterialIcons name="list" size={22} />}
+                    label="List"
+                    active={active === "fourth"}
+                    onPress={() => {
+                        setActive("fourth");
+                        navigation.navigate("List");
+                    }}
+                />
+            </PaperDrawer.Section>
+            <PaperDrawer.Section title="Manga">
+                <PaperDrawer.Item
+                    icon={() => <MaterialIcons name="bookmark" size={22} />}
+                    label="Top Manga"
+                    active={active === "fifth"}
+                    onPress={() => {
+                        setActive("fifth");
+                        navigation.navigate("List");
+                    }}
+                />
             </PaperDrawer.Section>
         </DrawerContentScrollView>
     );

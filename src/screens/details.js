@@ -12,6 +12,8 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import TabNav from "../navigation/detailsTabNavigator";
+import { Provider, Appbar } from "react-native-paper";
+import Colors from "../theming/colors";
 
 export default function Details({ route, navigation }) {
     const item = route.params;
@@ -36,63 +38,79 @@ export default function Details({ route, navigation }) {
     };
 
     return (
-        <View style={styles.container}>
-            {isLoading ? (
-                <View style={{ flex: 1, justifyContent: "center" }}>
-                    <ActivityIndicator size="large" color="blue" />
-                </View>
-            ) : (
-                <ScrollView>
-                    <ImageBackground
-                        source={{
-                            uri: item.image_url,
-                        }}
-                        style={styles.background}
-                    >
-                        <LinearGradient
-                            colors={["transparent", "white"]}
-                            style={styles.linearGradient}
+        <Provider>
+            <Appbar.Header style={{ backgroundColor: Colors.detailsHeader }}>
+                <Appbar.BackAction
+                    onPress={() => {
+                        navigation.goBack();
+                    }}
+                    color={Colors.detailsHeaderText}
+                    size={26}
+                    style={{ marginRight: 0 }}
+                />
+                <Appbar.Content
+                    title={route.params.title}
+                    titleStyle={{ color: Colors.detailsHeaderText }}
+                />
+            </Appbar.Header>
+            <View style={styles.container}>
+                {isLoading ? (
+                    <View style={{ flex: 1, justifyContent: "center" }}>
+                        <ActivityIndicator size="large" color="blue" />
+                    </View>
+                ) : (
+                    <ScrollView>
+                        <ImageBackground
+                            source={{
+                                uri: item.image_url,
+                            }}
+                            style={styles.background}
                         >
-                            <View style={styles.detailsContainer}>
-                                <Image
-                                    source={{
-                                        uri: item.image_url,
-                                    }}
-                                    style={styles.logo}
-                                />
-                                <View style={styles.nameContainer}>
-                                    <Text
-                                        onLongPress={copyTitle}
-                                        numberOfLines={4}
-                                        style={styles.head}
-                                    >
-                                        {title.title}
-                                    </Text>
-                                    {title.studios && (
-                                        <Text style={styles.studio}>
-                                            {title.studios.map(
-                                                (item) => item.name
-                                            )}
+                            <LinearGradient
+                                colors={["transparent", "white"]}
+                                style={styles.linearGradient}
+                            >
+                                <View style={styles.detailsContainer}>
+                                    <Image
+                                        source={{
+                                            uri: item.image_url,
+                                        }}
+                                        style={styles.logo}
+                                    />
+                                    <View style={styles.nameContainer}>
+                                        <Text
+                                            onLongPress={copyTitle}
+                                            numberOfLines={4}
+                                            style={styles.head}
+                                        >
+                                            {title.title}
                                         </Text>
-                                    )}
-                                    <View style={{ marginTop: 10 }}>
-                                        <Text style={styles.desc}>
-                                            {title.type}
-                                        </Text>
-                                        {title.aired.string && (
-                                            <Text style={styles.desc}>
-                                                {title.aired.string}
+                                        {title.studios && (
+                                            <Text style={styles.studio}>
+                                                {title.studios.map(
+                                                    (item) => item.name
+                                                )}
                                             </Text>
                                         )}
+                                        <View style={{ marginTop: 10 }}>
+                                            <Text style={styles.desc}>
+                                                {title.type}
+                                            </Text>
+                                            {title.aired.string && (
+                                                <Text style={styles.desc}>
+                                                    {title.aired.string}
+                                                </Text>
+                                            )}
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
-                        </LinearGradient>
-                    </ImageBackground>
-                    <TabNav title={title} navigation={navigation} />
-                </ScrollView>
-            )}
-        </View>
+                            </LinearGradient>
+                        </ImageBackground>
+                        <TabNav title={title} navigation={navigation} />
+                    </ScrollView>
+                )}
+            </View>
+        </Provider>
     );
 }
 

@@ -38,7 +38,7 @@ export default function Details({ route, navigation }) {
             <Appbar.Header style={{ backgroundColor: Colors.headerColor }}>
                 <Appbar.BackAction
                     onPress={() => {
-                        navigation.navigate("Top Anime");
+                        navigation.goBack();
                     }}
                     color={Colors.headerIcon}
                     size={26}
