@@ -15,6 +15,7 @@ import ListStack from "./listStack";
 import SearchStack from "./searchStack";
 import seasonalStack from "./seasonalStack";
 import topMangaStack from "./topMangaStack";
+import searchMangaStack from "./mangaSearchStack";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -33,8 +34,15 @@ function BottomTabsNavigator({ navigation }) {
                     <Drawer.Screen name="Top Anime" component={topAnimeStack} />
                     <Drawer.Screen name="Top Manga" component={topMangaStack} />
                     <Drawer.Screen name="Seasonal" component={seasonalStack} />
-                    <Drawer.Screen name="Search" component={SearchStack} />
+                    <Drawer.Screen
+                        name="Anime Search"
+                        component={SearchStack}
+                    />
                     <Drawer.Screen name="Anime List" component={ListStack} />
+                    <Drawer.Screen
+                        name="Manga Search"
+                        component={searchMangaStack}
+                    />
                 </Drawer.Navigator>
             </NavigationContainer>
         </AppearanceProvider>
@@ -86,6 +94,15 @@ const CustomDrawer = ({ navigation }) => {
                     label="Top Manga"
                     onPress={() => {
                         navigation.navigate("Top Manga");
+                    }}
+                />
+                <PaperDrawer.Item
+                    icon={() => (
+                        <MaterialCommunityIcons name="magnify" size={22} />
+                    )}
+                    label="Manga Search"
+                    onPress={() => {
+                        navigation.navigate("Manga Search");
                     }}
                 />
             </PaperDrawer.Section>

@@ -26,7 +26,7 @@ export default function Details({ route, navigation }) {
 
     const getTitles = (searchText) => {
         setLoading(true);
-        fetch(`https://api.jikan.moe/v3/search/anime?q=${searchText}`)
+        fetch(`https://api.jikan.moe/v3/search/manga?q=${searchText}`)
             .then((response) => response.json())
             .then((json) => setTitles(json.results))
             .catch((error) => console.error(error))
@@ -44,7 +44,7 @@ export default function Details({ route, navigation }) {
                     size={26}
                 />
                 <TextInput
-                    placeholder="Search Anime Titles..."
+                    placeholder="Search Manga Titles..."
                     defaultValue={searchText}
                     style={{ fontSize: 17, flex: 1, color: Colors.headerText }}
                     placeholderTextColor="#e0e0e0"
@@ -83,7 +83,7 @@ export default function Details({ route, navigation }) {
                                 rippleColor="rgba(256,256,256,0.3)"
                                 style={styles.opac}
                                 onPress={() =>
-                                    navigation.navigate("Details", item)
+                                    navigation.navigate("Manga Details", item)
                                 }
                             >
                                 <ImageBackground

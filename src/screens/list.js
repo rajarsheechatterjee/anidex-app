@@ -60,9 +60,6 @@ export default function List({ navigation }) {
         setDialogVisible(false);
         setUsername(text);
     };
-    const cancelDialog = () => {
-        setDialogVisible(false);
-    };
 
     const handleFilterName = () => {
         if (filterBy === "all") return "All";
@@ -159,7 +156,7 @@ export default function List({ navigation }) {
                 </Menu>
             </Appbar.Header>
             <View style={styles.container}>
-                {isLoading ? (
+                {isLoading && username === "" ? (
                     <View style={{ flex: 1, justifyContent: "center" }}>
                         <ActivityIndicator size="large" color="blue" />
                     </View>

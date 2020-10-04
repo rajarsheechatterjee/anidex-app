@@ -161,9 +161,12 @@ export default function Home({ navigation }) {
                                     centered
                                     rippleColor="rgba(256,256,256,0.3)"
                                     style={styles.opac}
-                                    // onPress={() =>
-                                    //     navigation.navigate("Details", item)
-                                    // }
+                                    onPress={() =>
+                                        navigation.navigate(
+                                            "Manga Details",
+                                            item
+                                        )
+                                    }
                                 >
                                     <AnimeCard item={item} />
                                 </TouchableRipple>
