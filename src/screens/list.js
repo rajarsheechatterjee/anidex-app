@@ -1,16 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
     StyleSheet,
     ActivityIndicator,
     View,
     Text,
     FlatList,
-    TouchableOpacity,
-    ImageBackground,
-    SafeAreaView,
 } from "react-native";
 import { Provider, TouchableRipple, Appbar, Menu } from "react-native-paper";
-import { LinearGradient } from "expo-linear-gradient";
+import AsyncStorage from "@react-native-community/async-storage";
+import {
+    Button,
+    Paragraph,
+    Dialog,
+    Portal,
+    TextInput,
+} from "react-native-paper";
+import { useFocusEffect } from "@react-navigation/native";
 
 // Custom
 import AnimeListCard from "../components/AnimeListCard";
@@ -19,22 +24,45 @@ import Colors from "../theming/colors";
 export default function List({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [titles, setTitles] = useState([]);
+    const [username, setUsername] = useState();
     const [filterBy, setFilterBy] = useState("all");
+
+    const loadUser = async () => {
+        setLoading(true);
+        const currentUser = await AsyncStorage.getItem("username");
+        if (currentUser !== null) {
+            setUsername(currentUser);
+        } else {
+            setDialogVisible(true);
+        }
+    };
+
+    useEffect(() => {
+        loadUser();
+        fetch(`https://api.jikan.moe/v3/user/${username}/animelist/${filterBy}`)
+            .then((response) => response.json())
+            .then((json) => setTitles(json.anime))
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+    }, [username, filterBy]);
 
     // Menu
     const [visible, setVisible] = useState(false);
     const openMenu = () => setVisible(true);
     const closeMenu = () => setVisible(false);
 
-    useEffect(() => {
-        fetch(
-            `https://api.jikan.moe/v3/user/stroheimrequiem/animelist/${filterBy}`
-        )
-            .then((response) => response.json())
-            .then((json) => setTitles(json.anime))
-            .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
-    }, [filterBy]);
+    //Dialog
+    const [text, setText] = useState();
+    const [dialogVisible, setDialogVisible] = useState(false);
+    const showDialog = () => setDialogVisible(true);
+    const hideDialog = async () => {
+        await AsyncStorage.setItem("username", text);
+        setDialogVisible(false);
+        setUsername(text);
+    };
+    const cancelDialog = () => {
+        setDialogVisible(false);
+    };
 
     const handleFilterName = () => {
         if (filterBy === "all") return "All";
@@ -57,12 +85,16 @@ export default function List({ navigation }) {
                     color={Colors.headerIcon}
                 />
                 <Appbar.Content
-                    title="StroheimRequiem's List"
+                    title={username + "'s" + " " + "List"}
                     subtitle={handleFilterName()}
                     titleStyle={{ color: Colors.headerText }}
                     subtitleStyle={{ color: Colors.headerSubtitle }}
                 />
-                {/* <Appbar.Action icon="filter-variant" onPress={() => {}} /> */}
+                <Appbar.Action
+                    icon="tune"
+                    onPress={showDialog}
+                    color={Colors.headerIcon}
+                />
 
                 <Menu
                     visible={visible}
@@ -136,6 +168,7 @@ export default function List({ navigation }) {
                         contentContainerStyle={styles.list}
                         numColumns={3}
                         data={titles}
+                        extraData={titles}
                         showsVerticalScrollIndicator={false}
                         keyExtractor={(item) => item.mal_id.toString()}
                         renderItem={({ item }) => (
@@ -154,6 +187,32 @@ export default function List({ navigation }) {
                     />
                 )}
             </View>
+            <Portal>
+                <Dialog visible={dialogVisible} onDismiss={hideDialog}>
+                    <Dialog.Title>Get Your Anime List</Dialog.Title>
+                    <Dialog.Content>
+                        <TextInput
+                            label="Username"
+                            mode="outlined"
+                            dense={true}
+                            value={text}
+                            onChangeText={(text) => setText(text)}
+                            selectionColor="#ACCEF7"
+                            theme={{
+                                colors: {
+                                    primary: Colors.headerColor,
+                                    underlineColor: "transparent",
+                                },
+                            }}
+                        />
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Button onPress={hideDialog} color={Colors.headerColor}>
+                            Save
+                        </Button>
+                    </Dialog.Actions>
+                </Dialog>
+            </Portal>
         </Provider>
     );
 }

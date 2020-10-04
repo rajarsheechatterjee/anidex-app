@@ -16,7 +16,7 @@ function homeStack() {
             <Stack.Screen
                 name="Details"
                 component={Details}
-                options={({ route }) => ({ title: route.params.title })}
+                options={{ headerShown: false }}
             />
         </Stack.Navigator>
     );

@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TouchableRipple } from "react-native-paper";
+import Colors from "../theming/colors";
 
 export const Button = ({ title, handleLoadMore }) => {
     return (
@@ -18,7 +19,7 @@ export const Button = ({ title, handleLoadMore }) => {
 const styles = StyleSheet.create({
     buttonContainer: {
         height: 35,
-        backgroundColor: "blue",
+        backgroundColor: Colors.headerColor,
         justifyContent: "center",
         borderRadius: 10,
         elevation: 1,

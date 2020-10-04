@@ -34,7 +34,7 @@ function BottomTabsNavigator({ navigation }) {
                     <Drawer.Screen name="Top Manga" component={topMangaStack} />
                     <Drawer.Screen name="Seasonal" component={seasonalStack} />
                     <Drawer.Screen name="Search" component={SearchStack} />
-                    <Drawer.Screen name="List" component={ListStack} />
+                    <Drawer.Screen name="Anime List" component={ListStack} />
                 </Drawer.Navigator>
             </NavigationContainer>
         </AppearanceProvider>
@@ -42,8 +42,6 @@ function BottomTabsNavigator({ navigation }) {
 }
 
 const CustomDrawer = ({ navigation }) => {
-    const [active, setActive] = React.useState("");
-
     return (
         <DrawerContentScrollView>
             <PaperDrawer.Section title="Anime">
@@ -52,9 +50,7 @@ const CustomDrawer = ({ navigation }) => {
                         <MaterialIcons name="collections-bookmark" size={22} />
                     )}
                     label="Top Anime"
-                    active={active === "first"}
                     onPress={() => {
-                        setActive("first");
                         navigation.navigate("Top Anime");
                     }}
                 />
@@ -63,9 +59,7 @@ const CustomDrawer = ({ navigation }) => {
                         <MaterialCommunityIcons name="compass" size={22} />
                     )}
                     label="Seasonal Anime"
-                    active={active === "second"}
                     onPress={() => {
-                        setActive("second");
                         navigation.navigate("Seasonal");
                     }}
                 />
@@ -74,19 +68,15 @@ const CustomDrawer = ({ navigation }) => {
                         <MaterialCommunityIcons name="magnify" size={22} />
                     )}
                     label="Search"
-                    active={active === "third"}
                     onPress={() => {
-                        setActive("third");
                         navigation.navigate("Search");
                     }}
                 />
                 <PaperDrawer.Item
                     icon={() => <MaterialIcons name="list" size={22} />}
-                    label="List"
-                    active={active === "fourth"}
+                    label="Anime List"
                     onPress={() => {
-                        setActive("fourth");
-                        navigation.navigate("List");
+                        navigation.navigate("Anime List");
                     }}
                 />
             </PaperDrawer.Section>
@@ -94,10 +84,8 @@ const CustomDrawer = ({ navigation }) => {
                 <PaperDrawer.Item
                     icon={() => <MaterialIcons name="bookmark" size={22} />}
                     label="Top Manga"
-                    active={active === "fifth"}
                     onPress={() => {
-                        setActive("fifth");
-                        navigation.navigate("List");
+                        navigation.navigate("Top Manga");
                     }}
                 />
             </PaperDrawer.Section>
