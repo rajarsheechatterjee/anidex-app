@@ -1,10 +1,12 @@
 const colors = {
-    headerColor: "#3b97fc",
-    headerText: "white",
-    headerSubtitle: "#E0E0E0",
-    headerIcon: "white",
+    headerColor: "white",
+    headerText: "black",
+    headerSubtitle: "rgba(0,0,0,0.6)",
+    backgroundColor: "#FAFAFA",
+    headerIcon: "black",
     detailsHeader: "white",
     detailsHeaderText: "black",
+    buttonColor: "#3399FF",
 };
 
 export default colors;

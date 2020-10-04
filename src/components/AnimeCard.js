@@ -25,7 +25,7 @@ export default function AnimeCard({ item }) {
             </View>
             <View style={styles.titleContainer}>
                 <LinearGradient
-                    colors={["transparent", "black"]}
+                    colors={["transparent", "rgba(0,0,0,1)"]}
                     style={styles.linearGradient}
                 >
                     <Text numberOfLines={2} style={styles.title}>

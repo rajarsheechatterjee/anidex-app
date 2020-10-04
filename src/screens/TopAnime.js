@@ -4,7 +4,7 @@ import {
     ActivityIndicator,
     View,
     FlatList,
-    Alert,
+    Text,
 } from "react-native";
 import {
     TouchableRipple,
@@ -12,7 +12,12 @@ import {
     Provider,
     Menu,
     Divider,
+    Button as PaperButton,
+    Paragraph,
+    Dialog,
+    Portal,
 } from "react-native-paper";
+import { Picker } from "react-native";
 
 // Custom
 import { Button } from "../components/Button";
@@ -23,16 +28,23 @@ export default function Home({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [titles, setTitles] = useState();
     const [sortBy, setSortBy] = useState("");
+    const [tempsortBy, setTempSortBy] = useState("");
     const [pageNo, setPageNo] = useState(2);
+
+    // Dialog
+    const [dialogVisible, setDialogVisible] = useState(false);
+    const showDialog = () => setDialogVisible(true);
+    const hideDialog = () => {
+        setSortBy(tempsortBy);
+        setLoading(true);
+        setPageNo(2);
+        setDialogVisible(false);
+    };
 
     // Menu
     const [visible, setVisible] = useState(false);
     const openMenu = () => setVisible(true);
     const closeMenu = () => setVisible(false);
-
-    // Switch
-    const [isSwitchOn, setIsSwitchOn] = useState(false);
-    const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
     useEffect(() => {
         fetch(`https://api.jikan.moe/v3/top/anime/1/${sortBy}`)
@@ -71,62 +83,68 @@ export default function Home({ navigation }) {
                 <Appbar.Content
                     title="Top Anime"
                     subtitle={handleFilterName()}
-                    onPress={openMenu}
+                    onPress={showDialog}
                     titleStyle={{ color: Colors.headerText }}
                     subtitleStyle={{ color: Colors.headerSubtitle }}
                 />
-                {/* <Appbar.Action icon="filter-variant" onPress={() => {}} /> */}
-
-                <Menu
-                    visible={visible}
-                    onDismiss={closeMenu}
-                    anchor={
-                        <Appbar.Action
-                            icon="filter-variant"
-                            size={26}
-                            onPress={openMenu}
-                            color={Colors.headerIcon}
-                        />
-                    }
-                >
-                    <Menu.Item
-                        onPress={() => {
-                            closeMenu();
-                            setLoading(true);
-                            setPageNo(2);
-                            setSortBy("");
-                        }}
-                        title="By Rating"
-                    />
-                    <Menu.Item
-                        onPress={() => {
-                            closeMenu();
-                            setLoading(true);
-                            setPageNo(2);
-                            setSortBy("bypopularity");
-                        }}
-                        title="By Popularity"
-                    />
-                    <Menu.Item
-                        onPress={() => {
-                            closeMenu();
-                            setLoading(true);
-                            setPageNo(2);
-                            setSortBy("airing");
-                        }}
-                        title="By Airing"
-                    />
-                    <Menu.Item
-                        onPress={() => {
-                            closeMenu();
-                            setLoading(true);
-                            setPageNo(2);
-                            setSortBy("upcoming");
-                        }}
-                        title="By Upcoming"
-                    />
-                </Menu>
+                <Appbar.Action
+                    icon="filter-variant"
+                    size={26}
+                    onPress={showDialog}
+                    color={Colors.headerIcon}
+                />
             </Appbar.Header>
+            <View>
+                <Portal>
+                    <Dialog visible={dialogVisible} onDismiss={hideDialog}>
+                        <Dialog.Title>Preferences</Dialog.Title>
+                        <Dialog.Content>
+                            <View style={{ flexDirection: "row" }}>
+                                <Text
+                                    style={{
+                                        flex: 2.5 / 10,
+                                        fontSize: 15,
+                                        color: Colors.headerSubtitle,
+                                        textAlignVertical: "center",
+                                    }}
+                                >
+                                    Filter by
+                                </Text>
+                                <Picker
+                                    selectedValue={tempsortBy}
+                                    mode="dropdown"
+                                    style={{ flex: 7.5 / 10, height: 40 }}
+                                    onValueChange={(itemValue) =>
+                                        setTempSortBy(itemValue)
+                                    }
+                                >
+                                    <Picker.Item label="Rating" value="" />
+                                    <Picker.Item
+                                        label="Popularity"
+                                        value="bypopularity"
+                                    />
+                                    <Picker.Item
+                                        label="Airing"
+                                        value="airing"
+                                    />
+                                    <Picker.Item
+                                        label="Upcoming"
+                                        value="upcoming"
+                                    />
+                                </Picker>
+                            </View>
+                        </Dialog.Content>
+                        <Dialog.Actions>
+                            <PaperButton
+                                onPress={hideDialog}
+                                style={{ marginRight: 7 }}
+                            >
+                                Apply
+                            </PaperButton>
+                        </Dialog.Actions>
+                    </Dialog>
+                </Portal>
+            </View>
             <View style={styles.container}>
                 {isLoading ? (
                     <View style={{ flex: 1, justifyContent: "center" }}>
@@ -181,7 +199,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
         padding: 3,
-        backgroundColor: "white",
+        backgroundColor: Colors.backgroundColor,
     },
     opac: {
         height: 190,

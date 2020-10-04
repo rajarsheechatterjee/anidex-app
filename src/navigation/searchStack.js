@@ -9,7 +9,7 @@ function homeStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="Search"
+                name="Anime Search"
                 component={Search}
                 options={{ headerShown: false }}
             />

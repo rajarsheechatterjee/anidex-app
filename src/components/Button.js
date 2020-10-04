@@ -19,7 +19,7 @@ export const Button = ({ title, handleLoadMore }) => {
 const styles = StyleSheet.create({
     buttonContainer: {
         height: 35,
-        backgroundColor: Colors.headerColor,
+        backgroundColor: Colors.buttonColor,
         justifyContent: "center",
         borderRadius: 10,
         elevation: 1,

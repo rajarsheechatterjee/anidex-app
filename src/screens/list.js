@@ -8,14 +8,8 @@ import {
 } from "react-native";
 import { Provider, TouchableRipple, Appbar, Menu } from "react-native-paper";
 import AsyncStorage from "@react-native-community/async-storage";
-import {
-    Button,
-    Paragraph,
-    Dialog,
-    Portal,
-    TextInput,
-} from "react-native-paper";
-import { useFocusEffect } from "@react-navigation/native";
+import { Button, Dialog, Portal, TextInput } from "react-native-paper";
+import { Picker } from "react-native";
 
 // Custom
 import AnimeListCard from "../components/AnimeListCard";
@@ -25,13 +19,31 @@ export default function List({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [titles, setTitles] = useState([]);
     const [username, setUsername] = useState();
-    const [filterBy, setFilterBy] = useState("all");
+    const [filterBy, setFilterBy] = useState("");
+    const [tempfilterBy, setTempFilterBy] = useState("");
+
+    // Menu Dialog
+    const [filterDialogVisible, setFilterDialogVisible] = useState(false);
+    const showFilterDialog = () => setFilterDialogVisible(true);
+    const hideFilterDialog = () => {
+        setFilterBy(tempfilterBy);
+        setLoading(true);
+        setFilterDialogVisible(false);
+    };
 
     const loadUser = async () => {
         setLoading(true);
+        setTitles([]);
         const currentUser = await AsyncStorage.getItem("username");
         if (currentUser !== null) {
             setUsername(currentUser);
+            fetch(
+                `https://api.jikan.moe/v3/user/${currentUser}/animelist/${filterBy}`
+            )
+                .then((response) => response.json())
+                .then((json) => setTitles(json.anime))
+                .catch((error) => console.error(error))
+                .finally(() => setLoading(false));
         } else {
             setDialogVisible(true);
         }
@@ -39,19 +51,9 @@ export default function List({ navigation }) {
 
     useEffect(() => {
         loadUser();
-        fetch(`https://api.jikan.moe/v3/user/${username}/animelist/${filterBy}`)
-            .then((response) => response.json())
-            .then((json) => setTitles(json.anime))
-            .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
     }, [username, filterBy]);
 
-    // Menu
-    const [visible, setVisible] = useState(false);
-    const openMenu = () => setVisible(true);
-    const closeMenu = () => setVisible(false);
-
-    //Dialog
+    // Username Dialog
     const [text, setText] = useState();
     const [dialogVisible, setDialogVisible] = useState(false);
     const showDialog = () => setDialogVisible(true);
@@ -62,7 +64,7 @@ export default function List({ navigation }) {
     };
 
     const handleFilterName = () => {
-        if (filterBy === "all") return "All";
+        if (filterBy === "") return "All";
         if (filterBy === "watching") return "Currently Watching";
         if (filterBy === "completed") return "Completed";
         if (filterBy === "onhold") return "On Hold";
@@ -93,70 +95,74 @@ export default function List({ navigation }) {
                     color={Colors.headerIcon}
                 />
 
-                <Menu
-                    visible={visible}
-                    onDismiss={closeMenu}
-                    anchor={
-                        <Appbar.Action
-                            icon="filter-variant"
-                            size={26}
-                            onPress={openMenu}
-                            color={Colors.headerIcon}
-                        />
-                    }
-                >
-                    <Menu.Item
-                        onPress={() => {
-                            setLoading(true);
-                            setFilterBy("all");
-                            closeMenu();
-                        }}
-                        title="All"
-                    />
-                    <Menu.Item
-                        onPress={() => {
-                            setLoading(true);
-                            setFilterBy("watching");
-                            closeMenu();
-                        }}
-                        title="Watching"
-                    />
-                    <Menu.Item
-                        onPress={() => {
-                            setLoading(true);
-                            setFilterBy("completed");
-                            closeMenu();
-                        }}
-                        title="Completed"
-                    />
-                    <Menu.Item
-                        onPress={() => {
-                            setLoading(true);
-                            setFilterBy("plantowatch");
-                            closeMenu();
-                        }}
-                        title="Plan to watch"
-                    />
-                    <Menu.Item
-                        onPress={() => {
-                            setLoading(true);
-                            setFilterBy("onhold");
-                            closeMenu();
-                        }}
-                        title="On Hold"
-                    />
-                    <Menu.Item
-                        onPress={() => {
-                            setLoading(true);
-                            setFilterBy("dropped");
-                            closeMenu();
-                        }}
-                        title="Dropped"
-                    />
-                </Menu>
+                <Appbar.Action
+                    icon="filter-variant"
+                    size={26}
+                    onPress={showFilterDialog}
+                    color={Colors.headerIcon}
+                />
             </Appbar.Header>
+            <View>
+                <Portal>
+                    <Dialog
+                        visible={filterDialogVisible}
+                        onDismiss={hideFilterDialog}
+                    >
+                        <Dialog.Title>Preferences</Dialog.Title>
+                        <Dialog.Content>
+                            <View style={{ flexDirection: "row" }}>
+                                <Text
+                                    style={{
+                                        flex: 2.5 / 10,
+                                        fontSize: 15,
+                                        color: Colors.headerSubtitle,
+                                        textAlignVertical: "center",
+                                    }}
+                                >
+                                    Filter by
+                                </Text>
+                                <Picker
+                                    selectedValue={tempfilterBy}
+                                    mode="dropdown"
+                                    style={{ flex: 7.5 / 10, height: 40 }}
+                                    onValueChange={(itemValue) =>
+                                        setTempFilterBy(itemValue)
+                                    }
+                                >
+                                    <Picker.Item label="All" value="" />
+                                    <Picker.Item
+                                        label="Watching"
+                                        value="watching"
+                                    />
+                                    <Picker.Item
+                                        label="Completed"
+                                        value="completed"
+                                    />
+                                    <Picker.Item
+                                        label="On Hold"
+                                        value="onhold"
+                                    />
+                                    <Picker.Item
+                                        label="Dropped"
+                                        value="dropped"
+                                    />
+                                </Picker>
+                            </View>
+                        </Dialog.Content>
+                        <Dialog.Actions>
+                            <Button
+                                onPress={hideFilterDialog}
+                                style={{ marginRight: 7 }}
+                                color={Colors.buttonColor}
+                            >
+                                Apply
+                            </Button>
+                        </Dialog.Actions>
+                    </Dialog>
+                </Portal>
+            </View>
             <View style={styles.container}>
-                {isLoading && username === "" ? (
+                {isLoading ? (
                     <View style={{ flex: 1, justifyContent: "center" }}>
                         <ActivityIndicator size="large" color="blue" />
                     </View>
@@ -197,14 +203,14 @@ export default function List({ navigation }) {
                             selectionColor="#ACCEF7"
                             theme={{
                                 colors: {
-                                    primary: Colors.headerColor,
+                                    primary: Colors.buttonColor,
                                     underlineColor: "transparent",
                                 },
                             }}
                         />
                     </Dialog.Content>
                     <Dialog.Actions>
-                        <Button onPress={hideDialog} color={Colors.headerColor}>
+                        <Button onPress={hideDialog} color={Colors.buttonColor}>
                             Save
                         </Button>
                     </Dialog.Actions>
@@ -219,7 +225,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
         padding: 3,
-        backgroundColor: "white",
+        backgroundColor: Colors.backgroundColor,
     },
     opac: {
         height: 190,

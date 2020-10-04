@@ -10,6 +10,7 @@ import {
     DrawerContentScrollView,
 } from "@react-navigation/drawer";
 
+// Stack Navigators
 import topAnimeStack from "./topAnimeStack";
 import ListStack from "./listStack";
 import SearchStack from "./searchStack";
@@ -17,9 +18,10 @@ import seasonalStack from "./seasonalStack";
 import topMangaStack from "./topMangaStack";
 import searchMangaStack from "./mangaSearchStack";
 
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+// Material Components
 import { MaterialIcons } from "@expo/vector-icons";
 import { Drawer as PaperDrawer } from "react-native-paper";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Drawer = createDrawerNavigator();
 
@@ -75,9 +77,9 @@ const CustomDrawer = ({ navigation }) => {
                     icon={() => (
                         <MaterialCommunityIcons name="magnify" size={22} />
                     )}
-                    label="Search"
+                    label="Anime Search"
                     onPress={() => {
-                        navigation.navigate("Search");
+                        navigation.navigate("Anime Search");
                     }}
                 />
                 <PaperDrawer.Item

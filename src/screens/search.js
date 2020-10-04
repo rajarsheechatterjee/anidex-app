@@ -39,6 +39,7 @@ export default function Details({ route, navigation }) {
                 <Appbar.BackAction
                     onPress={() => {
                         navigation.goBack();
+                        setTitles([]);
                     }}
                     color={Colors.headerIcon}
                     size={26}
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
         padding: 3,
-        backgroundColor: "white",
+        backgroundColor: Colors.backgroundColor,
     },
     textInput: {
         alignItems: "center",

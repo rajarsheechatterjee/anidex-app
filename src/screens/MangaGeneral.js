@@ -129,6 +129,7 @@ export default function General({ title }) {
                                         style={{
                                             textAlign: "center",
                                             textAlignVertical: "center",
+                                            paddingRight: 5,
                                         }}
                                     >
                                         <MaterialCommunityIcons
@@ -185,6 +186,7 @@ export default function General({ title }) {
                                         style={{
                                             textAlign: "center",
                                             textAlignVertical: "center",
+                                            paddingRight: 5,
                                         }}
                                     >
                                         <MaterialCommunityIcons

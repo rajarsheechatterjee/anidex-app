@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
         padding: 3,
-        backgroundColor: "white",
+        backgroundColor: Colors.backgroundColor,
     },
     textInput: {
         alignItems: "center",

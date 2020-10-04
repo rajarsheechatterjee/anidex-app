@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     },
     synopsis: {
         lineHeight: 20,
-        // fontFamily: 'nunito-regular'
+        // fontFamily: "product-sans",
     },
     desc: {
         color: "#424242",

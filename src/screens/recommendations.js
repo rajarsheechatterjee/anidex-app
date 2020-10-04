@@ -10,6 +10,13 @@ import {
     ImageBackground,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import {
+    TouchableRipple,
+    Appbar,
+    Provider,
+    Menu,
+    Divider,
+} from "react-native-paper";
 
 export default function Home({ title, navigation }) {
     const [isLoading, setLoading] = useState(true);
@@ -37,7 +44,10 @@ export default function Home({ title, navigation }) {
                     showsVerticalScrollIndicator={false}
                     keyExtractor={(item) => item.mal_id.toString()}
                     renderItem={({ item }) => (
-                        <TouchableOpacity
+                        <TouchableRipple
+                            borderless
+                            centered
+                            rippleColor="rgba(256,256,256,0.3)"
                             style={styles.opac}
                             onPress={() => {
                                 navigation.navigate("Details", item);
@@ -65,7 +75,7 @@ export default function Home({ title, navigation }) {
                                     </LinearGradient>
                                 </View>
                             </ImageBackground>
-                        </TouchableOpacity>
+                        </TouchableRipple>
                     )}
                 />
             )}
