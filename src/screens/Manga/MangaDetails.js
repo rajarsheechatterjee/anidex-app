@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Provider, Appbar } from "react-native-paper";
-import Colors from "../theming/colors";
+import Colors from "../../theming/colors";
 import MangaGeneral from "./MangaGeneral";
 
 export default function Details({ route, navigation }) {

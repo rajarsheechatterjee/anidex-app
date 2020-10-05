@@ -1,22 +1,17 @@
 import React from "react";
-import {
-    NavigationContainer,
-    DefaultTheme,
-    DarkTheme,
-} from "@react-navigation/native";
-import { AppearanceProvider, useColorScheme } from "react-native-appearance";
+import { NavigationContainer } from "@react-navigation/native";
 import {
     createDrawerNavigator,
     DrawerContentScrollView,
 } from "@react-navigation/drawer";
 
 // Stack Navigators
-import topAnimeStack from "./topAnimeStack";
-import ListStack from "./listStack";
-import SearchStack from "./searchStack";
-import seasonalStack from "./seasonalStack";
-import topMangaStack from "./topMangaStack";
-import searchMangaStack from "./mangaSearchStack";
+import topAnimeStack from "./TopAnimeStack";
+import ListStack from "./AnimeListStack";
+import SearchStack from "./AnimeSearchStack";
+import seasonalStack from "./SeasonalStack";
+import topMangaStack from "./TopMangaStack";
+import searchMangaStack from "./MangaSearchStack";
 
 // Material Components
 import { MaterialIcons } from "@expo/vector-icons";
@@ -25,31 +20,27 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 const Drawer = createDrawerNavigator();
 
-function BottomTabsNavigator({ navigation }) {
-    const scheme = useColorScheme();
+const DrawerNavigator = () => {
     return (
-        <AppearanceProvider>
-            <NavigationContainer>
-                <Drawer.Navigator
-                    drawerContent={(props) => <CustomDrawer {...props} />}
-                >
-                    <Drawer.Screen name="Top Anime" component={topAnimeStack} />
-                    <Drawer.Screen name="Top Manga" component={topMangaStack} />
-                    <Drawer.Screen name="Seasonal" component={seasonalStack} />
-                    <Drawer.Screen
-                        name="Anime Search"
-                        component={SearchStack}
-                    />
-                    <Drawer.Screen name="Anime List" component={ListStack} />
-                    <Drawer.Screen
-                        name="Manga Search"
-                        component={searchMangaStack}
-                    />
-                </Drawer.Navigator>
-            </NavigationContainer>
-        </AppearanceProvider>
+        <NavigationContainer>
+            <Drawer.Navigator
+                drawerContent={(props) => <CustomDrawer {...props} />}
+            >
+                <Drawer.Screen name="Top Anime" component={topAnimeStack} />
+                <Drawer.Screen name="Top Manga" component={topMangaStack} />
+                <Drawer.Screen name="Seasonal" component={seasonalStack} />
+                <Drawer.Screen name="Anime Search" component={SearchStack} />
+                <Drawer.Screen name="Anime List" component={ListStack} />
+                <Drawer.Screen
+                    name="Manga Search"
+                    component={searchMangaStack}
+                />
+            </Drawer.Navigator>
+        </NavigationContainer>
     );
-}
+};
+
+export default DrawerNavigator;
 
 const CustomDrawer = ({ navigation }) => {
     return (
@@ -111,5 +102,3 @@ const CustomDrawer = ({ navigation }) => {
         </DrawerContentScrollView>
     );
 };
-
-export default BottomTabsNavigator;

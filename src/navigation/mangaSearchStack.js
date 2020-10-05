@@ -1,7 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Search from "../screens/MangaSearch";
-import Details from "../screens/MangaDetails";
+
+import Search from "../screens/Manga/MangaSearch";
+import Details from "../screens/Manga/MangaDetails";
 
 const Stack = createStackNavigator();
 

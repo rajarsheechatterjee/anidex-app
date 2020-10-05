@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
     ActivityIndicator,
@@ -6,14 +6,14 @@ import {
     Text,
     FlatList,
 } from "react-native";
-import { Provider, TouchableRipple, Appbar, Menu } from "react-native-paper";
+import { Provider, TouchableRipple, Appbar } from "react-native-paper";
 import AsyncStorage from "@react-native-community/async-storage";
 import { Button, Dialog, Portal, TextInput } from "react-native-paper";
 import { Picker } from "react-native";
 
 // Custom
-import AnimeListCard from "../components/AnimeListCard";
-import Colors from "../theming/colors";
+import AnimeListCard from "./Components/AnimeListCard";
+import Colors from "../../theming/colors";
 
 export default function List({ navigation }) {
     const [isLoading, setLoading] = useState(true);

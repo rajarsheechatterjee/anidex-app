@@ -11,9 +11,9 @@ import {
     ScrollView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import TabNav from "../navigation/detailsTabNavigator";
+import TabNav from "../../../navigation/DetailsTab";
 import { Provider, Appbar } from "react-native-paper";
-import Colors from "../theming/colors";
+import Colors from "../../../theming/colors";
 
 export default function Details({ route, navigation }) {
     const item = route.params;

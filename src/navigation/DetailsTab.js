@@ -2,13 +2,13 @@ import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { View } from "react-native";
 
-import General from "../screens/general";
-import Details from "../screens/stats";
-import Recom from "../screens/recommendations";
+import General from "../screens/Anime/AnimeDetails/Tabs/GeneralTab";
+import Stats from "../screens/Anime/AnimeDetails/Tabs/StatsTab";
+import Recom from "../screens/Anime/AnimeDetails/Tabs/RecomTab";
 
 const Tab = createMaterialTopTabNavigator();
 
-function MyTabs({ title, navigation }) {
+function DetailsTab({ title, navigation }) {
     return (
         <View>
             <Tab.Navigator
@@ -21,7 +21,7 @@ function MyTabs({ title, navigation }) {
                     {() => <General title={title} />}
                 </Tab.Screen>
                 <Tab.Screen name="Details">
-                    {() => <Details title={title} />}
+                    {() => <Stats title={title} />}
                 </Tab.Screen>
                 <Tab.Screen name="Recoms">
                     {() => <Recom title={title} navigation={navigation} />}
@@ -31,4 +31,4 @@ function MyTabs({ title, navigation }) {
     );
 }
 
-export default MyTabs;
+export default DetailsTab;

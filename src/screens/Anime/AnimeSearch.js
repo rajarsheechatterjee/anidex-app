@@ -5,28 +5,21 @@ import {
     Text,
     ActivityIndicator,
     FlatList,
-    TouchableOpacity,
-    Modal,
     TextInput,
-    TouchableWithoutFeedback,
-    Keyboard,
     ImageBackground,
 } from "react-native";
 import { Appbar, TouchableRipple } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
-// import SearchBar from "react-native-dynamic-search-bar";
+import Colors from "../../theming/colors";
 
-// Custom
-import Colors from "../theming/colors";
-
-export default function Details({ route, navigation }) {
+const AnimeSearch = ({ navigation }) => {
     const [isLoading, setLoading] = useState(false);
     const [titles, setTitles] = useState([]);
     const [searchText, setSearchText] = useState("");
 
     const getTitles = (searchText) => {
         setLoading(true);
-        fetch(`https://api.jikan.moe/v3/search/manga?q=${searchText}`)
+        fetch(`https://api.jikan.moe/v3/search/anime?q=${searchText}`)
             .then((response) => response.json())
             .then((json) => setTitles(json.results))
             .catch((error) => console.error(error))
@@ -39,12 +32,13 @@ export default function Details({ route, navigation }) {
                 <Appbar.BackAction
                     onPress={() => {
                         navigation.goBack();
+                        setTitles([]);
                     }}
                     color={Colors.headerIcon}
                     size={26}
                 />
                 <TextInput
-                    placeholder="Search Manga Titles..."
+                    placeholder="Search Anime Titles..."
                     defaultValue={searchText}
                     style={{ fontSize: 17, flex: 1, color: Colors.headerText }}
                     placeholderTextColor="#e0e0e0"
@@ -83,7 +77,7 @@ export default function Details({ route, navigation }) {
                                 rippleColor="rgba(256,256,256,0.3)"
                                 style={styles.opac}
                                 onPress={() =>
-                                    navigation.navigate("Manga Details", item)
+                                    navigation.navigate("Details", item)
                                 }
                             >
                                 <ImageBackground
@@ -114,7 +108,9 @@ export default function Details({ route, navigation }) {
             </View>
         </>
     );
-}
+};
+
+export default AnimeSearch;
 
 const styles = StyleSheet.create({
     container: {

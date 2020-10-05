@@ -1,44 +1,33 @@
 import React, { useState, useEffect } from "react";
-import {
-    StyleSheet,
-    SafeAreaView,
-    ActivityIndicator,
-    View,
-    Text,
-    FlatList,
-    TouchableOpacity,
-    ImageBackground,
-} from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import {
-    TouchableRipple,
-    Appbar,
-    Provider,
-    Menu,
-    Divider,
-} from "react-native-paper";
+import { StyleSheet, ActivityIndicator, View, FlatList } from "react-native";
+import { TouchableRipple } from "react-native-paper";
+
+import AnimeCard from "../../Components/AnimeCard";
 
 export default function Home({ title, navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [recomTitles, setTitles] = useState([]);
 
-    useEffect(() => {
+    const getRecommendations = () => {
         fetch(`https://api.jikan.moe/v3/anime/${title.mal_id}/recommendations`)
             .then((response) => response.json())
             .then((json) => setTitles(json.recommendations.slice(0, 9)))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
+    };
+
+    useEffect(() => {
+        getRecommendations();
     }, [title]);
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             {isLoading ? (
                 <View style={{ flex: 1, justifyContent: "center" }}>
                     <ActivityIndicator size="large" color="blue" />
                 </View>
             ) : (
                 <FlatList
-                    contentContainerStyle={styles.list}
                     numColumns={3}
                     data={recomTitles}
                     showsVerticalScrollIndicator={false}
@@ -54,32 +43,12 @@ export default function Home({ title, navigation }) {
                                 navigation.navigate("General");
                             }}
                         >
-                            <ImageBackground
-                                source={{
-                                    uri: item.image_url,
-                                }}
-                                style={styles.logo}
-                                imageStyle={{ borderRadius: 6 }}
-                            >
-                                <View style={styles.titleContainer}>
-                                    <LinearGradient
-                                        colors={["transparent", "black"]}
-                                        style={styles.linearGradient}
-                                    >
-                                        <Text
-                                            numberOfLines={2}
-                                            style={styles.title}
-                                        >
-                                            {item.title}
-                                        </Text>
-                                    </LinearGradient>
-                                </View>
-                            </ImageBackground>
+                            <AnimeCard item={item} />
                         </TouchableRipple>
                     )}
                 />
             )}
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -90,7 +59,6 @@ const styles = StyleSheet.create({
         padding: 3,
         backgroundColor: "white",
     },
-    list: {},
     opac: {
         height: 190,
         flex: 1 / 3,
@@ -117,19 +85,5 @@ const styles = StyleSheet.create({
     },
     linearGradient: {
         borderRadius: 6,
-    },
-    badge: {
-        position: "absolute",
-        left: 5,
-        top: 5,
-    },
-    badgeText: {
-        fontFamily: "pt-sans-bold",
-        fontSize: 12,
-        color: "white",
-        width: "100%",
-        paddingHorizontal: 6,
-        borderRadius: 4,
-        backgroundColor: "rgba(0,0,0,0.6)",
     },
 });

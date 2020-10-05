@@ -1,29 +1,26 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import List from "../screens/list";
-import Details from "../screens/details";
+import AnimeList from "../screens/Anime/AnimeList";
+import Details from "../screens/Anime/AnimeDetails/AnimeDetails";
 
 const Stack = createStackNavigator();
 
-function listStack() {
+const AnimeListStack = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="StroheimRequiem's List"
-                component={List}
+                name="List"
+                component={AnimeList}
                 options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="Details"
                 component={Details}
-                options={({ route }) => ({
-                    title: route.params.title,
-                    headerShown: false,
-                })}
+                options={{ headerShown: false }}
             />
         </Stack.Navigator>
     );
-}
+};
 
-export default listStack;
+export default AnimeListStack;

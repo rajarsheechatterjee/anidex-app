@@ -1,8 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import TopAnime from "../screens/TopAnime";
-import Details from "../screens/details";
+import TopAnime from "../screens/Anime/TopAnime";
+import Details from "../screens/Anime/AnimeDetails/AnimeDetails";
 
 const Stack = createStackNavigator();
 

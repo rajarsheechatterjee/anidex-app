@@ -1,17 +1,8 @@
 import React from "react";
-import {
-    StyleSheet,
-    ActivityIndicator,
-    View,
-    Text,
-    FlatList,
-    TouchableOpacity,
-    ImageBackground,
-    Button,
-} from "react-native";
+import { StyleSheet, View, Text, ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function AnimeCard({ item }) {
+const AnimeCard = ({ item }) => {
     return (
         <ImageBackground
             source={{
@@ -20,12 +11,9 @@ export default function AnimeCard({ item }) {
             style={styles.logo}
             imageStyle={{ borderRadius: 6 }}
         >
-            <View style={styles.badge}>
-                <Text style={styles.badgeText}>{item.rank}</Text>
-            </View>
             <View style={styles.titleContainer}>
                 <LinearGradient
-                    colors={["transparent", "rgba(0,0,0,1)"]}
+                    colors={["transparent", "black"]}
                     style={styles.linearGradient}
                 >
                     <Text numberOfLines={2} style={styles.title}>
@@ -35,7 +23,9 @@ export default function AnimeCard({ item }) {
             </View>
         </ImageBackground>
     );
-}
+};
+
+export default AnimeCard;
 
 const styles = StyleSheet.create({
     logo: {
@@ -43,7 +33,6 @@ const styles = StyleSheet.create({
         borderRadius: 6,
     },
     titleContainer: {
-        zIndex: 1,
         position: "absolute",
         bottom: 0,
         left: 0,
@@ -59,19 +48,5 @@ const styles = StyleSheet.create({
     },
     linearGradient: {
         borderRadius: 6,
-    },
-    badge: {
-        position: "absolute",
-        left: 5,
-        top: 5,
-    },
-    badgeText: {
-        fontFamily: "pt-sans-bold",
-        fontSize: 12,
-        color: "white",
-        width: "100%",
-        paddingHorizontal: 6,
-        borderRadius: 4,
-        backgroundColor: "rgba(0,0,0,0.8)",
     },
 });

@@ -1,7 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Search from "../screens/search";
-import Details from "../screens/details";
+
+import Search from "../screens/Anime/AnimeSearch";
+import Details from "../screens/Anime/AnimeDetails/AnimeDetails";
 
 const Stack = createStackNavigator();
 

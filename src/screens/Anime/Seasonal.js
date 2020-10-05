@@ -1,69 +1,102 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
-    View,
-    Text,
     ActivityIndicator,
+    View,
     FlatList,
-    TouchableOpacity,
-    Modal,
-    TextInput,
-    TouchableWithoutFeedback,
-    Keyboard,
+    Text,
     ImageBackground,
 } from "react-native";
-import { Appbar, TouchableRipple } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
-// import SearchBar from "react-native-dynamic-search-bar";
+import { TouchableRipple, Appbar } from "react-native-paper";
 
 // Custom
-import Colors from "../theming/colors";
+import Colors from "../../theming/colors";
 
-export default function Details({ route, navigation }) {
-    const [isLoading, setLoading] = useState(false);
+export default function SeasonScreen({ navigation }) {
+    const [isLoading, setLoading] = useState(true);
     const [titles, setTitles] = useState([]);
-    const [searchText, setSearchText] = useState("");
+    const [season, setSeason] = useState("fall");
+    const [year, setYear] = useState(2020);
 
-    const getTitles = (searchText) => {
-        setLoading(true);
-        fetch(`https://api.jikan.moe/v3/search/anime?q=${searchText}`)
+    useEffect(() => {
+        fetch(`https://api.jikan.moe/v3/season/${year}/${season}`)
             .then((response) => response.json())
-            .then((json) => setTitles(json.results))
+            .then((json) => setTitles(json.anime))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
+    }, [season, year]);
+
+    const handleNextSeason = () => {
+        if (season === "winter") setSeason("spring");
+        if (season === "spring") setSeason("summer");
+        if (season === "summer") setSeason("fall");
+        if (season === "fall") {
+            setSeason("winter");
+            setYear(year + 1);
+        }
+    };
+
+    const handlePreviousSeason = () => {
+        if (season === "spring") setSeason("winter");
+        if (season === "summer") setSeason("spring");
+        if (season === "fall") setSeason("summer");
+        if (season === "winter") {
+            setSeason("fall");
+            setYear(year - 1);
+        }
+    };
+
+    const handleMonths = () => {
+        if (season === "spring") return "Apr - Jun";
+        if (season === "summer") return "Jul - Sep";
+        if (season === "fall") return "Oct - Dec";
+        if (season === "winter") return "Jan - Mar";
+    };
+
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     };
 
     return (
         <>
-            <Appbar.Header style={{ backgroundColor: Colors.headerColor }}>
-                <Appbar.BackAction
+            <Appbar.Header
+                style={{
+                    backgroundColor: Colors.headerColor,
+                }}
+            >
+                <Appbar.Action
+                    icon="menu"
+                    size={26}
                     onPress={() => {
-                        navigation.goBack();
-                        setTitles([]);
+                        navigation.openDrawer();
                     }}
                     color={Colors.headerIcon}
+                />
+                <Appbar.Content
+                    title={capitalizeFirstLetter(season) + " " + year}
+                    subtitle={handleMonths()}
+                    titleStyle={{ color: Colors.headerText }}
+                    subtitleStyle={{ color: Colors.headerSubtitle }}
+                />
+                <Appbar.Action
+                    icon="chevron-left"
                     size={26}
-                />
-                <TextInput
-                    placeholder="Search Anime Titles..."
-                    defaultValue={searchText}
-                    style={{ fontSize: 17, flex: 1, color: Colors.headerText }}
-                    placeholderTextColor="#e0e0e0"
-                    blurOnSubmit={true}
-                    onChangeText={async (text) => {
-                        await setSearchText(text);
-                        getTitles(searchText);
+                    onPress={() => {
+                        setLoading(true);
+                        handlePreviousSeason();
                     }}
+                    color={Colors.headerIcon}
                 />
-                {searchText !== "" && (
-                    <Appbar.Action
-                        icon="close"
-                        onPress={() => {
-                            setSearchText("");
-                        }}
-                        color={Colors.headerIcon}
-                    />
-                )}
+                <Appbar.Action
+                    icon="chevron-right"
+                    size={26}
+                    onPress={() => {
+                        setLoading(true);
+                        handleNextSeason();
+                    }}
+                    color={Colors.headerIcon}
+                />
             </Appbar.Header>
             <View style={styles.container}>
                 {isLoading ? (

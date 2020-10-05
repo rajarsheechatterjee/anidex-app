@@ -3,7 +3,7 @@ import * as Font from "expo-font";
 import { AppLoading } from "expo";
 
 // Navigator
-import Navigator from "./src/navigation/drawerNavigator";
+import Navigator from "./src/navigation/DrawerNavigator";
 
 const getFonts = () =>
     Font.loadAsync({
@@ -17,11 +17,7 @@ export default function App() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
 
     if (fontsLoaded) {
-        return (
-            <>
-                <Navigator />
-            </>
-        );
+        return <Navigator />;
     } else {
         return (
             <AppLoading

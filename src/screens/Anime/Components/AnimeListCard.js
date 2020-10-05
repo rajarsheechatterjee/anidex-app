@@ -1,17 +1,22 @@
 import React from "react";
-import {
-    StyleSheet,
-    ActivityIndicator,
-    View,
-    Text,
-    FlatList,
-    TouchableOpacity,
-    ImageBackground,
-    Button,
-} from "react-native";
+import { StyleSheet, View, Text, ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function AnimeListCard({ item }) {
+const AnimeListCard = ({ item }) => {
+    const WatchingStatusBadge = () => {
+        if (item.watching_status === 1) {
+            return <Text style={styles.watchingBadge}>CW</Text>;
+        } else if (item.watching_status === 2) {
+            return <Text style={styles.completedBadge}>CMPL</Text>;
+        } else if (item.watching_status === 3) {
+            return <Text style={styles.onholdBadge}>OH</Text>;
+        } else if (item.watching_status === 4) {
+            return <Text style={styles.droppedBadge}>DR</Text>;
+        } else if (item.watching_status === 6) {
+            return <Text style={styles.ptwBadge}>PTW</Text>;
+        }
+    };
+
     return (
         <ImageBackground
             source={{
@@ -20,31 +25,9 @@ export default function AnimeListCard({ item }) {
             style={styles.logo}
             imageStyle={{ borderRadius: 6 }}
         >
-            {item.watching_status === 1 && (
-                <View style={styles.badge}>
-                    <Text style={styles.badgeText}>CW</Text>
-                </View>
-            )}
-            {item.watching_status === 2 && (
-                <View style={styles.badge}>
-                    <Text style={styles.badgeText2}>CMPL</Text>
-                </View>
-            )}
-            {item.watching_status === 3 && (
-                <View style={styles.badge}>
-                    <Text style={styles.badgeText5}>OH</Text>
-                </View>
-            )}
-            {item.watching_status === 4 && (
-                <View style={styles.badge}>
-                    <Text style={styles.badgeText4}>DR</Text>
-                </View>
-            )}
-            {item.watching_status === 6 && (
-                <View style={styles.badge}>
-                    <Text style={styles.badgeText3}>PTW</Text>
-                </View>
-            )}
+            <View style={styles.badge}>
+                <WatchingStatusBadge />
+            </View>
             <View style={styles.titleContainer}>
                 <LinearGradient
                     colors={["transparent", "black"]}
@@ -57,7 +40,9 @@ export default function AnimeListCard({ item }) {
             </View>
         </ImageBackground>
     );
-}
+};
+
+export default AnimeListCard;
 
 const styles = StyleSheet.create({
     logo: {
@@ -86,7 +71,7 @@ const styles = StyleSheet.create({
         right: 5,
         top: 5,
     },
-    badgeText: {
+    watchingBadge: {
         fontFamily: "pt-sans-bold",
         fontSize: 12,
         color: "white",
@@ -95,7 +80,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         backgroundColor: "#47a84a",
     },
-    badgeText2: {
+    completedBadge: {
         fontFamily: "pt-sans-bold",
         fontSize: 12,
         color: "white",
@@ -104,7 +89,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         backgroundColor: "#448AFF",
     },
-    badgeText3: {
+    ptwBadge: {
         fontFamily: "pt-sans-bold",
         fontSize: 12,
         color: "white",
@@ -113,7 +98,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         backgroundColor: "#212121",
     },
-    badgeText4: {
+    droppedBadge: {
         fontFamily: "pt-sans-bold",
         fontSize: 12,
         color: "white",
@@ -122,7 +107,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         backgroundColor: "#a12f31",
     },
-    badgeText5: {
+    onholdBadge: {
         fontFamily: "pt-sans-bold",
         fontSize: 12,
         color: "white",

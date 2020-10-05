@@ -4,6 +4,7 @@ import {
     ActivityIndicator,
     View,
     FlatList,
+    Alert,
     Text,
 } from "react-native";
 import {
@@ -12,34 +13,18 @@ import {
     Provider,
     Menu,
     Divider,
-    Button as PaperButton,
-    Paragraph,
-    Dialog,
-    Portal,
 } from "react-native-paper";
-import { Picker } from "react-native";
 
 // Custom
-import { Button } from "../components/Button";
-import AnimeCard from "../components/AnimeCard";
-import Colors from "../theming/colors";
+import { Button } from "../../components/Button";
+import Colors from "../../theming/colors";
+import AnimeCard from "../Anime/Components/TopAnimeCard";
 
 export default function Home({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [titles, setTitles] = useState();
     const [sortBy, setSortBy] = useState("");
-    const [tempsortBy, setTempSortBy] = useState("");
     const [pageNo, setPageNo] = useState(2);
-
-    // Dialog
-    const [dialogVisible, setDialogVisible] = useState(false);
-    const showDialog = () => setDialogVisible(true);
-    const hideDialog = () => {
-        setSortBy(tempsortBy);
-        setLoading(true);
-        setPageNo(2);
-        setDialogVisible(false);
-    };
 
     // Menu
     const [visible, setVisible] = useState(false);
@@ -47,7 +32,7 @@ export default function Home({ navigation }) {
     const closeMenu = () => setVisible(false);
 
     useEffect(() => {
-        fetch(`https://api.jikan.moe/v3/top/anime/1/${sortBy}`)
+        fetch(`https://api.jikan.moe/v3/top/manga/1/${sortBy}`)
             .then((response) => response.json())
             .then((json) => setTitles(json.top))
             .catch((error) => console.error(error))
@@ -55,7 +40,7 @@ export default function Home({ navigation }) {
     }, [sortBy]);
 
     const handleLoadMore = async () => {
-        fetch(`https://api.jikan.moe/v3/top/anime/${pageNo}/${sortBy}`)
+        fetch(`https://api.jikan.moe/v3/top/manga/${pageNo}/${sortBy}`)
             .then((response) => response.json())
             .then((json) => setTitles((titles) => titles.concat(json.top)))
             .catch((error) => console.error(error))
@@ -64,9 +49,12 @@ export default function Home({ navigation }) {
 
     const handleFilterName = () => {
         if (sortBy === "") return "By Rating";
-        if (sortBy === "upcoming") return "By Upcoming";
+        // if (sortBy === "manga") return "Manga";
+        if (sortBy === "novels") return "Novels";
+        // if (sortBy === "oneshots") return "OneShots";
+        // if (sortBy === "doujin") return "Doujins";
+        if (sortBy === "manhwa") return "Manhwa";
         if (sortBy === "bypopularity") return "By Popularity";
-        if (sortBy === "airing") return "By Airing";
     };
 
     return (
@@ -81,70 +69,64 @@ export default function Home({ navigation }) {
                     color={Colors.headerIcon}
                 />
                 <Appbar.Content
-                    title="Top Anime"
+                    title="Top Manga"
                     subtitle={handleFilterName()}
-                    onPress={showDialog}
+                    onPress={openMenu}
                     titleStyle={{ color: Colors.headerText }}
                     subtitleStyle={{ color: Colors.headerSubtitle }}
                 />
-                <Appbar.Action
-                    icon="filter-variant"
-                    size={26}
-                    onPress={showDialog}
-                    color={Colors.headerIcon}
-                />
+                {/* <Appbar.Action icon="filter-variant" onPress={() => {}} /> */}
+
+                <Menu
+                    visible={visible}
+                    onDismiss={closeMenu}
+                    anchor={
+                        <Appbar.Action
+                            icon="filter-variant"
+                            size={26}
+                            onPress={openMenu}
+                            color={Colors.headerIcon}
+                        />
+                    }
+                >
+                    <Menu.Item
+                        onPress={() => {
+                            closeMenu();
+                            setLoading(true);
+                            setPageNo(2);
+                            setSortBy("");
+                        }}
+                        title="By Rating"
+                    />
+                    <Menu.Item
+                        onPress={() => {
+                            closeMenu();
+                            setLoading(true);
+                            setPageNo(2);
+                            setSortBy("bypopularity");
+                        }}
+                        title="By Popularity"
+                    />
+                    <Menu.Item
+                        onPress={() => {
+                            closeMenu();
+                            setLoading(true);
+                            setPageNo(2);
+                            setSortBy("manhwa");
+                        }}
+                        title="By Manhwa"
+                    />
+                    <Menu.Item
+                        onPress={() => {
+                            closeMenu();
+                            setLoading(true);
+                            setPageNo(2);
+                            setSortBy("novels");
+                        }}
+                        title="By Novels"
+                    />
+                </Menu>
             </Appbar.Header>
-            <View>
-                <Portal>
-                    <Dialog visible={dialogVisible} onDismiss={hideDialog}>
-                        <Dialog.Title>Preferences</Dialog.Title>
-                        <Dialog.Content>
-                            <View style={{ flexDirection: "row" }}>
-                                <Text
-                                    style={{
-                                        flex: 2.5 / 10,
-                                        fontSize: 15,
-                                        color: Colors.headerSubtitle,
-                                        textAlignVertical: "center",
-                                    }}
-                                >
-                                    Filter by
-                                </Text>
-                                <Picker
-                                    selectedValue={tempsortBy}
-                                    mode="dropdown"
-                                    style={{ flex: 7.5 / 10, height: 40 }}
-                                    onValueChange={(itemValue) =>
-                                        setTempSortBy(itemValue)
-                                    }
-                                >
-                                    <Picker.Item label="Rating" value="" />
-                                    <Picker.Item
-                                        label="Popularity"
-                                        value="bypopularity"
-                                    />
-                                    <Picker.Item
-                                        label="Airing"
-                                        value="airing"
-                                    />
-                                    <Picker.Item
-                                        label="Upcoming"
-                                        value="upcoming"
-                                    />
-                                </Picker>
-                            </View>
-                        </Dialog.Content>
-                        <Dialog.Actions>
-                            <PaperButton
-                                onPress={hideDialog}
-                                style={{ marginRight: 7 }}
-                            >
-                                Apply
-                            </PaperButton>
-                        </Dialog.Actions>
-                    </Dialog>
-                </Portal>
-            </View>
             <View style={styles.container}>
                 {isLoading ? (
                     <View style={{ flex: 1, justifyContent: "center" }}>
@@ -180,7 +162,10 @@ export default function Home({ navigation }) {
                                     rippleColor="rgba(256,256,256,0.3)"
                                     style={styles.opac}
                                     onPress={() =>
-                                        navigation.navigate("Details", item)
+                                        navigation.navigate(
+                                            "Manga Details",
+                                            item
+                                        )
                                     }
                                 >
                                     <AnimeCard item={item} />
@@ -199,7 +184,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
         padding: 3,
-        backgroundColor: Colors.backgroundColor,
+        backgroundColor: "white",
     },
     opac: {
         height: 190,
