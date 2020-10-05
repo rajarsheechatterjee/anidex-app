@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, ActivityIndicator, View, FlatList } from "react-native";
+import {
+    StyleSheet,
+    ActivityIndicator,
+    View,
+    FlatList,
+    Text,
+} from "react-native";
 import { TouchableRipple } from "react-native-paper";
 
 import AnimeCard from "../../Components/AnimeCard";
@@ -27,26 +33,51 @@ export default function Home({ title, navigation }) {
                     <ActivityIndicator size="large" color="blue" />
                 </View>
             ) : (
-                <FlatList
-                    numColumns={3}
-                    data={recomTitles}
-                    showsVerticalScrollIndicator={false}
-                    keyExtractor={(item) => item.mal_id.toString()}
-                    renderItem={({ item }) => (
-                        <TouchableRipple
-                            borderless
-                            centered
-                            rippleColor="rgba(256,256,256,0.3)"
-                            style={styles.opac}
-                            onPress={() => {
-                                navigation.navigate("Details", item);
-                                navigation.navigate("General");
+                <>
+                    {recomTitles.length === 0 ? (
+                        <View
+                            style={{
+                                flex: 1,
+                                justifyContent: "center",
+                                alignItems: "center",
                             }}
                         >
-                            <AnimeCard item={item} />
-                        </TouchableRipple>
+                            <Text
+                                style={{
+                                    fontSize: 40,
+                                    fontWeight: "bold",
+                                    color: "rgba(0,0,0,0.6)",
+                                }}
+                            >
+                                (;_;)
+                            </Text>
+                            <Text style={{ marginTop: 15 }}>
+                                No recommendations
+                            </Text>
+                        </View>
+                    ) : (
+                        <FlatList
+                            numColumns={3}
+                            data={recomTitles}
+                            showsVerticalScrollIndicator={false}
+                            keyExtractor={(item) => item.mal_id.toString()}
+                            renderItem={({ item }) => (
+                                <TouchableRipple
+                                    borderless
+                                    centered
+                                    rippleColor="rgba(256,256,256,0.3)"
+                                    style={styles.opac}
+                                    onPress={() => {
+                                        navigation.navigate("Details", item);
+                                        navigation.navigate("General");
+                                    }}
+                                >
+                                    <AnimeCard item={item} />
+                                </TouchableRipple>
+                            )}
+                        />
                     )}
-                />
+                </>
             )}
         </View>
     );

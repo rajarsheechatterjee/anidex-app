@@ -11,6 +11,7 @@ import {
 import { Appbar, TouchableRipple } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../../theming/colors";
+import AnimeCard from "./Components/AnimeCard";
 
 const AnimeSearch = ({ navigation }) => {
     const [isLoading, setLoading] = useState(false);
@@ -80,27 +81,7 @@ const AnimeSearch = ({ navigation }) => {
                                     navigation.navigate("Details", item)
                                 }
                             >
-                                <ImageBackground
-                                    source={{
-                                        uri: item.image_url,
-                                    }}
-                                    style={styles.logo}
-                                    imageStyle={{ borderRadius: 6 }}
-                                >
-                                    <View style={styles.titleContainer}>
-                                        <LinearGradient
-                                            colors={["transparent", "black"]}
-                                            style={styles.linearGradient}
-                                        >
-                                            <Text
-                                                numberOfLines={2}
-                                                style={styles.title}
-                                            >
-                                                {item.title}
-                                            </Text>
-                                        </LinearGradient>
-                                    </View>
-                                </ImageBackground>
+                                <AnimeCard item={item} />
                             </TouchableRipple>
                         )}
                     />
@@ -157,19 +138,5 @@ const styles = StyleSheet.create({
     },
     linearGradient: {
         borderRadius: 6,
-    },
-    badge: {
-        position: "absolute",
-        left: 5,
-        top: 5,
-    },
-    badgeText: {
-        fontFamily: "pt-sans-bold",
-        fontSize: 12,
-        color: "white",
-        width: "100%",
-        paddingHorizontal: 6,
-        borderRadius: 4,
-        backgroundColor: "rgba(0,0,0,0.6)",
     },
 });
