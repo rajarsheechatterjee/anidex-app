@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import TopAnime from "../screens/Anime/TopAnime";
 import Details from "../screens/Anime/AnimeDetails/AnimeDetails";
+import MalWebview from "../screens/Anime/MalWebview";
 
 const Stack = createStackNavigator();
 
@@ -17,10 +18,12 @@ function topAnimeStack() {
             <Stack.Screen
                 name="Details"
                 component={Details}
-                options={({ route }) => ({
-                    title: route.params.title,
-                    headerShown: false,
-                })}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="Mal Webview"
+                component={MalWebview}
+                options={{ headerShown: false }}
             />
         </Stack.Navigator>
     );
