@@ -4,6 +4,7 @@ import {
     ActivityIndicator,
     View,
     FlatList,
+    RefreshControl,
     Text,
 } from "react-native";
 import {
@@ -37,13 +38,22 @@ export default function Home({ navigation }) {
         setPageNo(2);
         setDialogVisible(false);
     };
+    // Refresh Control
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = async () => {
+        await setRefreshing(true);
+        getTopAnime();
+    };
 
     getTopAnime = () => {
         fetch(`https://api.jikan.moe/v3/top/anime/1/${sortBy}`)
             .then((response) => response.json())
             .then((json) => setTitles(json.top))
             .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
+            .finally(() => {
+                setLoading(false);
+                setRefreshing(false);
+            });
     };
 
     useEffect(() => {
@@ -155,6 +165,14 @@ export default function Home({ navigation }) {
                             data={titles}
                             extraData={titles}
                             showsVerticalScrollIndicator={false}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={refreshing}
+                                    onRefresh={onRefresh}
+                                    colors={["white"]}
+                                    progressBackgroundColor={Colors.buttonColor}
+                                />
+                            }
                             ListFooterComponent={
                                 <View
                                     style={{

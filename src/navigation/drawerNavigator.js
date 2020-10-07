@@ -12,6 +12,7 @@ import SearchStack from "./AnimeSearchStack";
 import seasonalStack from "./SeasonalStack";
 import topMangaStack from "./TopMangaStack";
 import searchMangaStack from "./MangaSearchStack";
+import mangaListStack from "./MangaListStack";
 
 // Material Components
 import { MaterialIcons } from "@expo/vector-icons";
@@ -35,6 +36,7 @@ const DrawerNavigator = () => {
                     name="Manga Search"
                     component={searchMangaStack}
                 />
+                <Drawer.Screen name="Manga List" component={mangaListStack} />
             </Drawer.Navigator>
         </NavigationContainer>
     );
@@ -96,6 +98,13 @@ const CustomDrawer = ({ navigation }) => {
                     label="Manga Search"
                     onPress={() => {
                         navigation.navigate("Manga Search");
+                    }}
+                />
+                <PaperDrawer.Item
+                    icon={() => <MaterialIcons name="list" size={22} />}
+                    label="Manga List"
+                    onPress={() => {
+                        navigation.navigate("Manga List");
                     }}
                 />
             </PaperDrawer.Section>

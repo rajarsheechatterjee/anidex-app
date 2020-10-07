@@ -13,7 +13,7 @@ import { Button, Dialog, Portal, TextInput } from "react-native-paper";
 import { Picker } from "react-native";
 
 // Custom
-import AnimeListCard from "./Components/AnimeListCard";
+import MangaListCard from "../Manga/Components/MangaListCard";
 import Colors from "../../theming/colors";
 
 export default function List({ navigation }) {
@@ -22,13 +22,6 @@ export default function List({ navigation }) {
     const [username, setUsername] = useState();
     const [filterBy, setFilterBy] = useState("");
     const [tempfilterBy, setTempFilterBy] = useState("");
-
-    // Refresh Control
-    const [refreshing, setRefreshing] = useState(false);
-    const onRefresh = async () => {
-        await setRefreshing(true);
-        loadUser();
-    };
 
     // Menu Dialog
     const [filterDialogVisible, setFilterDialogVisible] = useState(false);
@@ -39,6 +32,13 @@ export default function List({ navigation }) {
         setFilterDialogVisible(false);
     };
 
+    // Refresh Control
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = async () => {
+        await setRefreshing(true);
+        loadUser();
+    };
+
     const loadUser = async () => {
         setLoading(true);
         setTitles([]);
@@ -46,10 +46,10 @@ export default function List({ navigation }) {
         if (currentUser !== null) {
             setUsername(currentUser);
             fetch(
-                `https://api.jikan.moe/v3/user/${currentUser}/animelist/${filterBy}`
+                `https://api.jikan.moe/v3/user/${currentUser}/mangalist/${filterBy}`
             )
                 .then((response) => response.json())
-                .then((json) => setTitles(json.anime))
+                .then((json) => setTitles(json.manga))
                 .catch((error) => console.error(error))
                 .finally(() => {
                     setLoading(false);
@@ -76,7 +76,7 @@ export default function List({ navigation }) {
 
     const handleFilterName = () => {
         if (filterBy === "") return "All";
-        if (filterBy === "watching") return "Currently Watching";
+        if (filterBy === "reading") return "Currently Reading";
         if (filterBy === "completed") return "Completed";
         if (filterBy === "onhold") return "On Hold";
         if (filterBy === "plantowatch") return "Plan to watch";
@@ -142,8 +142,8 @@ export default function List({ navigation }) {
                                 >
                                     <Picker.Item label="All" value="" />
                                     <Picker.Item
-                                        label="Watching"
-                                        value="watching"
+                                        label="Reading"
+                                        value="reading"
                                     />
                                     <Picker.Item
                                         label="Completed"
@@ -200,10 +200,10 @@ export default function List({ navigation }) {
                                 rippleColor="rgba(256,256,256,0.3)"
                                 style={styles.opac}
                                 onPress={() =>
-                                    navigation.navigate("Details", item)
+                                    navigation.navigate("Manga Details", item)
                                 }
                             >
-                                <AnimeListCard item={item} />
+                                <MangaListCard item={item} />
                             </TouchableRipple>
                         )}
                     />
@@ -211,7 +211,7 @@ export default function List({ navigation }) {
             </View>
             <Portal>
                 <Dialog visible={dialogVisible} onDismiss={hideDialog}>
-                    <Dialog.Title>Get Your Anime List</Dialog.Title>
+                    <Dialog.Title>Get Your Manga List</Dialog.Title>
                     <Dialog.Content>
                         <TextInput
                             label="Username"

@@ -7,18 +7,21 @@ import Details from "../screens/Anime/AnimeDetails/AnimeDetails";
 const Stack = createStackNavigator();
 
 function homeStack() {
+    const forFade = ({ current }) => ({
+        cardStyle: {
+            opacity: current.progress,
+        },
+    });
+
     return (
-        <Stack.Navigator>
-            <Stack.Screen
-                name="Anime Search"
-                component={Search}
-                options={{ headerShown: false }}
-            />
-            <Stack.Screen
-                name="Details"
-                component={Details}
-                options={{ headerShown: false }}
-            />
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+                cardStyleInterpolator: forFade,
+            }}
+        >
+            <Stack.Screen name="Anime Search" component={Search} />
+            <Stack.Screen name="Details" component={Details} />
         </Stack.Navigator>
     );
 }

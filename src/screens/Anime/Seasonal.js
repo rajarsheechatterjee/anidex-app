@@ -6,6 +6,7 @@ import {
     FlatList,
     Text,
     ImageBackground,
+    RefreshControl,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { TouchableRipple, Appbar } from "react-native-paper";
@@ -19,12 +20,26 @@ export default function SeasonScreen({ navigation }) {
     const [season, setSeason] = useState("fall");
     const [year, setYear] = useState(2020);
 
-    useEffect(() => {
+    // Refresh Control
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = async () => {
+        await setRefreshing(true);
+        getSeasonalAnime();
+    };
+
+    const getSeasonalAnime = () => {
         fetch(`https://api.jikan.moe/v3/season/${year}/${season}`)
             .then((response) => response.json())
             .then((json) => setTitles(json.anime))
             .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
+            .finally(() => {
+                setLoading(false);
+                setRefreshing(false);
+            });
+    };
+
+    useEffect(() => {
+        getSeasonalAnime();
     }, [season, year]);
 
     const handleNextSeason = () => {
@@ -110,6 +125,14 @@ export default function SeasonScreen({ navigation }) {
                         data={titles}
                         showsVerticalScrollIndicator={false}
                         keyExtractor={(item) => item.mal_id.toString()}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                                colors={["white"]}
+                                progressBackgroundColor={Colors.buttonColor}
+                            />
+                        }
                         renderItem={({ item }) => (
                             <TouchableRipple
                                 borderless

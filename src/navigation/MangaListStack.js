@@ -1,12 +1,12 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import Search from "../screens/Manga/MangaSearch";
-import Details from "../screens/Manga/MangaDetails";
+import MangaList from "../screens/Manga/MangaList";
+import MangaDetails from "../screens/Manga/MangaDetails";
 
 const Stack = createStackNavigator();
 
-function homeStack() {
+const MangaListStack = () => {
     const forFade = ({ current }) => ({
         cardStyle: {
             opacity: current.progress,
@@ -20,10 +20,10 @@ function homeStack() {
                 cardStyleInterpolator: forFade,
             }}
         >
-            <Stack.Screen name="Manga Search" component={Search} />
-            <Stack.Screen name="Manga Details" component={Details} />
+            <Stack.Screen name="Manga List" component={MangaList} />
+            <Stack.Screen name="Manga Details" component={MangaDetails} />
         </Stack.Navigator>
     );
-}
+};
 
-export default homeStack;
+export default MangaListStack;

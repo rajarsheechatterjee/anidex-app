@@ -4,8 +4,7 @@ import {
     ActivityIndicator,
     View,
     FlatList,
-    Alert,
-    Text,
+    RefreshControl,
 } from "react-native";
 import {
     TouchableRipple,
@@ -31,12 +30,26 @@ export default function Home({ navigation }) {
     const openMenu = () => setVisible(true);
     const closeMenu = () => setVisible(false);
 
-    useEffect(() => {
+    // Refresh Control
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = async () => {
+        await setRefreshing(true);
+        getTopManga();
+    };
+
+    const getTopManga = () => {
         fetch(`https://api.jikan.moe/v3/top/manga/1/${sortBy}`)
             .then((response) => response.json())
             .then((json) => setTitles(json.top))
             .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
+            .finally(() => {
+                setLoading(false);
+                setRefreshing(false);
+            });
+    };
+
+    useEffect(() => {
+        getTopManga();
     }, [sortBy]);
 
     const handleLoadMore = async () => {
@@ -140,6 +153,14 @@ export default function Home({ navigation }) {
                             data={titles}
                             extraData={titles}
                             showsVerticalScrollIndicator={false}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={refreshing}
+                                    onRefresh={onRefresh}
+                                    colors={["white"]}
+                                    progressBackgroundColor={Colors.buttonColor}
+                                />
+                            }
                             ListFooterComponent={
                                 <View
                                     style={{

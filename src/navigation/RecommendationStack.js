@@ -8,11 +8,7 @@ function recomStack({ title, navigation }) {
     return (
         <Stack.Navigator>
             <Stack.Screen component={Details} />
-            <Stack.Screen
-                name="Details"
-                component={Details}
-                options={({ route }) => ({ title: route.params.title })}
-            />
+            <Stack.Screen name="Details" component={Details} />
         </Stack.Navigator>
     );
 }

@@ -6,21 +6,21 @@ import Details from "../screens/Anime/AnimeDetails/AnimeDetails";
 const Stack = createStackNavigator();
 
 function seasonalStack() {
+    const forFade = ({ current }) => ({
+        cardStyle: {
+            opacity: current.progress,
+        },
+    });
+
     return (
-        <Stack.Navigator>
-            <Stack.Screen
-                name="Season"
-                component={Season}
-                options={{ headerShown: false }}
-            />
-            <Stack.Screen
-                name="Details"
-                component={Details}
-                options={({ route }) => ({
-                    title: route.params.title,
-                    headerShown: false,
-                })}
-            />
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+                cardStyleInterpolator: forFade,
+            }}
+        >
+            <Stack.Screen name="Season" component={Season} />
+            <Stack.Screen name="Details" component={Details} />
         </Stack.Navigator>
     );
 }

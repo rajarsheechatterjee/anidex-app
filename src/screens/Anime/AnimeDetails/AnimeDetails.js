@@ -52,13 +52,13 @@ export default function Details({ route, navigation }) {
                     title={route.params.title}
                     titleStyle={{ color: Colors.detailsHeaderText }}
                 />
-                <Appbar.Action
+                {/* <Appbar.Action
                     icon="web"
                     accessibilityLabel="Webview"
                     onPress={() => {
                         navigation.navigate("Mal Webview", item);
                     }}
-                />
+                /> */}
             </Appbar.Header>
             <View style={styles.container}>
                 {isLoading ? (
