@@ -42,6 +42,7 @@ export default function Home({ navigation }) {
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = async () => {
         await setRefreshing(true);
+        setPageNo(2);
         getTopAnime();
     };
 
