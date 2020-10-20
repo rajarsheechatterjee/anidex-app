@@ -7,17 +7,10 @@ import mangaDetails from "../screens/Manga/MangaDetails";
 const Stack = createStackNavigator();
 
 function TopMangaStack() {
-    const forFade = ({ current }) => ({
-        cardStyle: {
-            opacity: current.progress,
-        },
-    });
-
     return (
         <Stack.Navigator
             screenOptions={{
                 headerShown: false,
-                cardStyleInterpolator: forFade,
             }}
         >
             <Stack.Screen name="Top Manga" component={TopManga} />

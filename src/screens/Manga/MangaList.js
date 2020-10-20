@@ -27,7 +27,11 @@ export default function List({ navigation }) {
     const [filterDialogVisible, setFilterDialogVisible] = useState(false);
     const showFilterDialog = () => setFilterDialogVisible(true);
     const hideFilterDialog = () => {
-        setFilterBy(tempfilterBy);
+        if (tempfilterBy === "") {
+            setFilterBy(tempfilterBy);
+        } else {
+            setFilterBy("/" + tempfilterBy);
+        }
         setLoading(true);
         setFilterDialogVisible(false);
     };
@@ -35,7 +39,7 @@ export default function List({ navigation }) {
     // Refresh Control
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = async () => {
-        await setRefreshing(true);
+        setRefreshing(true);
         loadUser();
     };
 
@@ -46,7 +50,7 @@ export default function List({ navigation }) {
         if (currentUser !== null) {
             setUsername(currentUser);
             fetch(
-                `https://api.jikan.moe/v3/user/${currentUser}/mangalist/${filterBy}`
+                `https://api.jikan.moe/v3/user/${currentUser}/mangalist${filterBy}`
             )
                 .then((response) => response.json())
                 .then((json) => setTitles(json.manga))
@@ -79,7 +83,7 @@ export default function List({ navigation }) {
         if (filterBy === "reading") return "Currently Reading";
         if (filterBy === "completed") return "Completed";
         if (filterBy === "onhold") return "On Hold";
-        if (filterBy === "plantowatch") return "Plan to watch";
+        if (filterBy === "plantoread") return "Plan to Read";
         if (filterBy === "dropped") return "Dropped";
     };
 
@@ -148,6 +152,10 @@ export default function List({ navigation }) {
                                     <Picker.Item
                                         label="Completed"
                                         value="completed"
+                                    />
+                                    <Picker.Item
+                                        label="Plan To Read"
+                                        value="plantoread"
                                     />
                                     <Picker.Item
                                         label="On Hold"

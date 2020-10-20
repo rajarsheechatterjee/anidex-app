@@ -33,13 +33,13 @@ export default function Home({ navigation }) {
     // Refresh Control
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = async () => {
-        await setRefreshing(true);
+        setRefreshing(true);
         setPageNo(2);
         getTopManga();
     };
 
     const getTopManga = () => {
-        fetch(`https://api.jikan.moe/v3/top/manga/1/${sortBy}`)
+        fetch(`https://api.jikan.moe/v3/top/manga/1${sortBy}`)
             .then((response) => response.json())
             .then((json) => setTitles(json.top))
             .catch((error) => console.error(error))
@@ -54,7 +54,7 @@ export default function Home({ navigation }) {
     }, [sortBy]);
 
     const handleLoadMore = async () => {
-        fetch(`https://api.jikan.moe/v3/top/manga/${pageNo}/${sortBy}`)
+        fetch(`https://api.jikan.moe/v3/top/manga/${pageNo}${sortBy}`)
             .then((response) => response.json())
             .then((json) => setTitles((titles) => titles.concat(json.top)))
             .catch((error) => console.error(error))
@@ -117,7 +117,7 @@ export default function Home({ navigation }) {
                             closeMenu();
                             setLoading(true);
                             setPageNo(2);
-                            setSortBy("bypopularity");
+                            setSortBy("/bypopularity");
                         }}
                         title="By Popularity"
                     />
@@ -126,7 +126,7 @@ export default function Home({ navigation }) {
                             closeMenu();
                             setLoading(true);
                             setPageNo(2);
-                            setSortBy("manhwa");
+                            setSortBy("/manhwa");
                         }}
                         title="By Manhwa"
                     />
@@ -135,7 +135,7 @@ export default function Home({ navigation }) {
                             closeMenu();
                             setLoading(true);
                             setPageNo(2);
-                            setSortBy("novels");
+                            setSortBy("/novels");
                         }}
                         title="By Novels"
                     />

@@ -6,17 +6,10 @@ import Details from "../screens/Anime/AnimeDetails/AnimeDetails";
 const Stack = createStackNavigator();
 
 function seasonalStack() {
-    const forFade = ({ current }) => ({
-        cardStyle: {
-            opacity: current.progress,
-        },
-    });
-
     return (
         <Stack.Navigator
             screenOptions={{
                 headerShown: false,
-                cardStyleInterpolator: forFade,
             }}
         >
             <Stack.Screen name="Season" component={Season} />

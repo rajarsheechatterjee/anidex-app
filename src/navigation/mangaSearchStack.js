@@ -7,17 +7,10 @@ import Details from "../screens/Manga/MangaDetails";
 const Stack = createStackNavigator();
 
 function homeStack() {
-    const forFade = ({ current }) => ({
-        cardStyle: {
-            opacity: current.progress,
-        },
-    });
-
     return (
         <Stack.Navigator
             screenOptions={{
                 headerShown: false,
-                cardStyleInterpolator: forFade,
             }}
         >
             <Stack.Screen name="Manga Search" component={Search} />

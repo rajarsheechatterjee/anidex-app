@@ -26,7 +26,7 @@ export default function List({ navigation }) {
     // Refresh Control
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = async () => {
-        await setRefreshing(true);
+        setRefreshing(true);
         loadUser();
     };
 
@@ -34,7 +34,11 @@ export default function List({ navigation }) {
     const [filterDialogVisible, setFilterDialogVisible] = useState(false);
     const showFilterDialog = () => setFilterDialogVisible(true);
     const hideFilterDialog = () => {
-        setFilterBy(tempfilterBy);
+        if (tempfilterBy === "") {
+            setFilterBy(tempfilterBy);
+        } else {
+            setFilterBy("/" + tempfilterBy);
+        }
         setLoading(true);
         setFilterDialogVisible(false);
     };
@@ -46,7 +50,7 @@ export default function List({ navigation }) {
         if (currentUser !== null) {
             setUsername(currentUser);
             fetch(
-                `https://api.jikan.moe/v3/user/${currentUser}/animelist/${filterBy}`
+                `https://api.jikan.moe/v3/user/${currentUser}/animelist${filterBy}`
             )
                 .then((response) => response.json())
                 .then((json) => setTitles(json.anime))
@@ -148,6 +152,10 @@ export default function List({ navigation }) {
                                     <Picker.Item
                                         label="Completed"
                                         value="completed"
+                                    />
+                                    <Picker.Item
+                                        label="Plan To Watch"
+                                        value="plantowatch"
                                     />
                                     <Picker.Item
                                         label="On Hold"

@@ -9,17 +9,10 @@ import { CardStyleInterpolators } from "@react-navigation/stack";
 const Stack = createStackNavigator();
 
 function topAnimeStack() {
-    const forFade = ({ current }) => ({
-        cardStyle: {
-            opacity: current.progress,
-        },
-    });
-
     return (
         <Stack.Navigator
             screenOptions={{
                 headerShown: false,
-                cardStyleInterpolator: forFade,
             }}
         >
             <Stack.Screen name="Top Anime" component={TopAnime} />

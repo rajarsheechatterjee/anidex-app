@@ -13,7 +13,7 @@ const AnimeListCard = ({ item }) => {
         } else if (item.reading_status === 4) {
             return <Text style={styles.droppedBadge}>DR</Text>;
         } else if (item.reading_status === 6) {
-            return <Text style={styles.ptwBadge}>PTW</Text>;
+            return <Text style={styles.ptwBadge}>PTR</Text>;
         }
     };
 
