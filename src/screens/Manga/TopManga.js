@@ -6,13 +6,7 @@ import {
     FlatList,
     RefreshControl,
 } from "react-native";
-import {
-    TouchableRipple,
-    Appbar,
-    Provider,
-    Menu,
-    Divider,
-} from "react-native-paper";
+import { TouchableRipple, Appbar, Provider, Menu } from "react-native-paper";
 
 // Custom
 import { Button } from "../../components/Button";
@@ -39,7 +33,7 @@ export default function Home({ navigation }) {
     };
 
     const getTopManga = () => {
-        fetch(`https://api.jikan.moe/v3/top/manga/1${sortBy}`)
+        fetch(`https://api.jikan.moe/v3/top/manga/1/${sortBy}`)
             .then((response) => response.json())
             .then((json) => setTitles(json.top))
             .catch((error) => console.error(error))
@@ -54,7 +48,7 @@ export default function Home({ navigation }) {
     }, [sortBy]);
 
     const handleLoadMore = async () => {
-        fetch(`https://api.jikan.moe/v3/top/manga/${pageNo}${sortBy}`)
+        fetch(`https://api.jikan.moe/v3/top/manga/${pageNo}/${sortBy}`)
             .then((response) => response.json())
             .then((json) => setTitles((titles) => titles.concat(json.top)))
             .catch((error) => console.error(error))
@@ -117,7 +111,7 @@ export default function Home({ navigation }) {
                             closeMenu();
                             setLoading(true);
                             setPageNo(2);
-                            setSortBy("/bypopularity");
+                            setSortBy("bypopularity");
                         }}
                         title="By Popularity"
                     />
@@ -126,7 +120,7 @@ export default function Home({ navigation }) {
                             closeMenu();
                             setLoading(true);
                             setPageNo(2);
-                            setSortBy("/manhwa");
+                            setSortBy("manhwa");
                         }}
                         title="By Manhwa"
                     />
@@ -135,7 +129,7 @@ export default function Home({ navigation }) {
                             closeMenu();
                             setLoading(true);
                             setPageNo(2);
-                            setSortBy("/novels");
+                            setSortBy("novels");
                         }}
                         title="By Novels"
                     />

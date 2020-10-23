@@ -10,24 +10,22 @@ const Tab = createMaterialTopTabNavigator();
 
 function DetailsTab({ title, navigation }) {
     return (
-        <View>
-            <Tab.Navigator
-                tabBarOptions={{
-                    labelStyle: { fontSize: 12, textTransform: "none" },
-                    tabStyle: { minHeight: 10, maxHeight: 30 },
-                }}
-            >
-                <Tab.Screen name="General">
-                    {() => <General title={title} />}
-                </Tab.Screen>
-                <Tab.Screen name="Details">
-                    {() => <Stats title={title} />}
-                </Tab.Screen>
-                <Tab.Screen name="Recoms">
-                    {() => <Recom title={title} navigation={navigation} />}
-                </Tab.Screen>
-            </Tab.Navigator>
-        </View>
+        <Tab.Navigator
+            tabBarOptions={{
+                labelStyle: { fontSize: 12, textTransform: "none" },
+                tabStyle: { minHeight: 10, maxHeight: 30 },
+            }}
+        >
+            <Tab.Screen name="General">
+                {() => <General title={title} />}
+            </Tab.Screen>
+            <Tab.Screen name="Details">
+                {() => <Stats title={title} />}
+            </Tab.Screen>
+            <Tab.Screen name="Recoms">
+                {() => <Recom title={title} navigation={navigation} />}
+            </Tab.Screen>
+        </Tab.Navigator>
     );
 }
 

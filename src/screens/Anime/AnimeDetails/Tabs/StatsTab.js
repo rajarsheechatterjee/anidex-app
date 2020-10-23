@@ -1,79 +1,85 @@
 import React from "react";
-import { StyleSheet, View, Text, SafeAreaView, FlatList } from "react-native";
+import { StyleSheet, View, Text, ScrollView, FlatList } from "react-native";
 
 export default function General({ title }) {
     return (
-        <View style={styles.mainContainer}>
-            <View>
-                <Text style={styles.heading}>Statistics</Text>
-                <View style={styles.statsContainer}>
-                    <Text style={styles.smHeading}>Score </Text>
-                    <Text style={styles.stat1}>
-                        {title.score} (Scored by {title.scored_by} users)
-                    </Text>
+        <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
+            <View style={styles.mainContainer}>
+                <View>
+                    <Text style={styles.heading}>Statistics</Text>
+                    <View style={styles.statsContainer}>
+                        <Text style={styles.smHeading}>Score </Text>
+                        <Text style={styles.stat1}>
+                            {title.score} (Scored by {title.scored_by} users)
+                        </Text>
+                    </View>
+                    <View style={styles.statsContainer2}>
+                        <Text style={styles.smHeading}>Rank </Text>
+                        <Text style={styles.stat1}>{title.rank}</Text>
+                    </View>
+                    <View style={styles.statsContainer}>
+                        <Text style={styles.smHeading}>Popularity </Text>
+                        <Text style={styles.stat1}>#{title.popularity}</Text>
+                    </View>
+                    <View style={styles.statsContainer2}>
+                        <Text style={styles.smHeading}>Members </Text>
+                        <Text style={styles.stat1}>{title.members}</Text>
+                    </View>
+                    <View style={styles.statsContainer}>
+                        <Text style={styles.smHeading}>Favorites </Text>
+                        <Text style={styles.stat1}>{title.favorites}</Text>
+                    </View>
                 </View>
-                <View style={styles.statsContainer2}>
-                    <Text style={styles.smHeading}>Rank </Text>
-                    <Text style={styles.stat1}>{title.rank}</Text>
+                <View>
+                    {title.opening_themes.length !== 0 && (
+                        <FlatList
+                            data={title.opening_themes}
+                            keyExtractor={(index) => index}
+                            renderItem={({ item, index }) => (
+                                <Text
+                                    numberOfLines={1}
+                                    style={[
+                                        styles.opening,
+                                        index % 2 === 0 && styles.bg,
+                                    ]}
+                                >
+                                    {item}
+                                </Text>
+                            )}
+                            ListHeaderComponent={() => (
+                                <Text style={styles.heading}>
+                                    Opening Themes
+                                </Text>
+                            )}
+                        />
+                    )}
                 </View>
-                <View style={styles.statsContainer}>
-                    <Text style={styles.smHeading}>Popularity </Text>
-                    <Text style={styles.stat1}>#{title.popularity}</Text>
-                </View>
-                <View style={styles.statsContainer2}>
-                    <Text style={styles.smHeading}>Members </Text>
-                    <Text style={styles.stat1}>{title.members}</Text>
-                </View>
-                <View style={styles.statsContainer}>
-                    <Text style={styles.smHeading}>Favorites </Text>
-                    <Text style={styles.stat1}>{title.favorites}</Text>
+                <View>
+                    {title.ending_themes.length !== 0 && (
+                        <FlatList
+                            data={title.ending_themes}
+                            keyExtractor={(index) => index}
+                            renderItem={({ item, index }) => (
+                                <Text
+                                    numberOfLines={1}
+                                    style={[
+                                        styles.opening,
+                                        index % 2 === 0 && styles.bg,
+                                    ]}
+                                >
+                                    {item}
+                                </Text>
+                            )}
+                            ListHeaderComponent={() => (
+                                <Text style={styles.heading}>
+                                    Ending Themes
+                                </Text>
+                            )}
+                        />
+                    )}
                 </View>
             </View>
-            <View>
-                {title.opening_themes && (
-                    <FlatList
-                        data={title.opening_themes}
-                        keyExtractor={(index) => index}
-                        renderItem={({ item, index }) => (
-                            <Text
-                                numberOfLines={1}
-                                style={[
-                                    styles.opening,
-                                    index % 2 === 0 && styles.bg,
-                                ]}
-                            >
-                                {item}
-                            </Text>
-                        )}
-                        ListHeaderComponent={() => (
-                            <Text style={styles.heading}>Opening Themes</Text>
-                        )}
-                    />
-                )}
-            </View>
-            <View>
-                {title.ending_themes && (
-                    <FlatList
-                        data={title.ending_themes}
-                        keyExtractor={(index) => index}
-                        renderItem={({ item, index }) => (
-                            <Text
-                                numberOfLines={1}
-                                style={[
-                                    styles.opening,
-                                    index % 2 === 0 && styles.bg,
-                                ]}
-                            >
-                                {item}
-                            </Text>
-                        )}
-                        ListHeaderComponent={() => (
-                            <Text style={styles.heading}>Ending Themes</Text>
-                        )}
-                    />
-                )}
-            </View>
-        </View>
+        </ScrollView>
     );
 }
 

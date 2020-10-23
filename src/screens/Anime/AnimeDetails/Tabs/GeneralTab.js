@@ -4,7 +4,7 @@ import { FlatList } from "react-native-gesture-handler";
 
 export default function General({ title }) {
     return (
-        <View style={{ flex: 1 }}>
+        <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
             <View style={styles.mainContainer}>
                 <View style={styles.statsContainer}>
                     <View style={styles.details}>
@@ -73,35 +73,16 @@ export default function General({ title }) {
                     )}
                 </View>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    background: {
-        height: 240,
-    },
-    linearGradient: {
-        height: "100%",
-        backgroundColor: "rgba(256, 256, 256, 0.5)",
-    },
-    detailsContainer: {
-        flex: 1,
-        flexDirection: "row",
-        margin: 17,
-    },
-    logo: {
-        height: 180,
-        width: 120,
-        margin: 3.2,
-        borderRadius: 6,
-    },
     mainContainer: {
         flex: 1,
         flexDirection: "column",
         paddingHorizontal: 15,
         paddingVertical: 10,
-        backgroundColor: "white",
     },
     nameContainer: {
         flex: 1,

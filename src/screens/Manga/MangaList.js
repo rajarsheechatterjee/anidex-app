@@ -27,12 +27,10 @@ export default function List({ navigation }) {
     const [filterDialogVisible, setFilterDialogVisible] = useState(false);
     const showFilterDialog = () => setFilterDialogVisible(true);
     const hideFilterDialog = () => {
-        if (tempfilterBy === "") {
+        if (tempfilterBy !== filterBy) {
             setFilterBy(tempfilterBy);
-        } else {
-            setFilterBy("/" + tempfilterBy);
+            setLoading(true);
         }
-        setLoading(true);
         setFilterDialogVisible(false);
     };
 
@@ -50,7 +48,7 @@ export default function List({ navigation }) {
         if (currentUser !== null) {
             setUsername(currentUser);
             fetch(
-                `https://api.jikan.moe/v3/user/${currentUser}/mangalist${filterBy}`
+                `https://api.jikan.moe/v3/user/${currentUser}/mangalist/${filterBy}`
             )
                 .then((response) => response.json())
                 .then((json) => setTitles(json.manga))

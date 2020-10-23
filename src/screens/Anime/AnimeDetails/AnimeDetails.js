@@ -66,7 +66,7 @@ export default function Details({ route, navigation }) {
                         <ActivityIndicator size="large" color="blue" />
                     </View>
                 ) : (
-                    <ScrollView>
+                    <>
                         <ImageBackground
                             source={{
                                 uri: item.image_url,
@@ -114,7 +114,7 @@ export default function Details({ route, navigation }) {
                             </LinearGradient>
                         </ImageBackground>
                         <TabNav title={title} navigation={navigation} />
-                    </ScrollView>
+                    </>
                 )}
             </View>
         </Provider>

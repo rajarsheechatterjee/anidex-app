@@ -10,6 +10,7 @@ import topAnimeStack from "./TopAnimeStack";
 import ListStack from "./AnimeListStack";
 import SearchStack from "./AnimeSearchStack";
 import seasonalStack from "./SeasonalStack";
+import animeGenreStack from "./AnimeGenreStack";
 import topMangaStack from "./TopMangaStack";
 import searchMangaStack from "./MangaSearchStack";
 import mangaListStack from "./MangaListStack";
@@ -32,6 +33,10 @@ const DrawerNavigator = () => {
                 <Drawer.Screen name="Seasonal" component={seasonalStack} />
                 <Drawer.Screen name="Anime Search" component={SearchStack} />
                 <Drawer.Screen name="Anime List" component={ListStack} />
+                <Drawer.Screen
+                    name="Anime Genres"
+                    component={animeGenreStack}
+                />
                 <Drawer.Screen
                     name="Manga Search"
                     component={searchMangaStack}
@@ -64,6 +69,15 @@ const CustomDrawer = ({ navigation }) => {
                     label="Seasonal Anime"
                     onPress={() => {
                         navigation.navigate("Seasonal");
+                    }}
+                />
+                <PaperDrawer.Item
+                    icon={() => (
+                        <MaterialCommunityIcons name="apps" size={22} />
+                    )}
+                    label="Anime Genres"
+                    onPress={() => {
+                        navigation.navigate("Anime Genres");
                     }}
                 />
                 <PaperDrawer.Item

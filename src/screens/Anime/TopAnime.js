@@ -33,13 +33,12 @@ export default function Home({ navigation }) {
     const [dialogVisible, setDialogVisible] = useState(false);
     const showDialog = () => setDialogVisible(true);
     const hideDialog = () => {
-        if (tempsortBy === "") {
+        if (tempsortBy !== sortBy) {
             setSortBy(tempsortBy);
-        } else {
-            setSortBy("/" + tempsortBy);
+
+            setLoading(true);
+            setPageNo(2);
         }
-        setLoading(true);
-        setPageNo(2);
         setDialogVisible(false);
     };
     // Refresh Control
@@ -51,7 +50,7 @@ export default function Home({ navigation }) {
     };
 
     getTopAnime = () => {
-        fetch(`https://api.jikan.moe/v3/top/anime/1${sortBy}`)
+        fetch(`https://api.jikan.moe/v3/top/anime/1/${sortBy}`)
             .then((response) => response.json())
             .then((json) => setTitles(json.top))
             .catch((error) => console.error(error))
