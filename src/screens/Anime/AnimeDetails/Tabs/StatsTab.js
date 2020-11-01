@@ -30,54 +30,46 @@ export default function General({ title }) {
                         <Text style={styles.stat1}>{title.favorites}</Text>
                     </View>
                 </View>
-                <View>
-                    {title.opening_themes.length !== 0 && (
-                        <FlatList
-                            data={title.opening_themes}
-                            keyExtractor={(index) => index}
-                            renderItem={({ item, index }) => (
-                                <Text
-                                    numberOfLines={1}
-                                    style={[
-                                        styles.opening,
-                                        index % 2 === 0 && styles.bg,
-                                    ]}
-                                >
-                                    {item}
-                                </Text>
-                            )}
-                            ListHeaderComponent={() => (
-                                <Text style={styles.heading}>
-                                    Opening Themes
-                                </Text>
-                            )}
-                        />
-                    )}
-                </View>
-                <View>
-                    {title.ending_themes.length !== 0 && (
-                        <FlatList
-                            data={title.ending_themes}
-                            keyExtractor={(index) => index}
-                            renderItem={({ item, index }) => (
-                                <Text
-                                    numberOfLines={1}
-                                    style={[
-                                        styles.opening,
-                                        index % 2 === 0 && styles.bg,
-                                    ]}
-                                >
-                                    {item}
-                                </Text>
-                            )}
-                            ListHeaderComponent={() => (
-                                <Text style={styles.heading}>
-                                    Ending Themes
-                                </Text>
-                            )}
-                        />
-                    )}
-                </View>
+                {title.opening_themes.length !== 0 && (
+                    <FlatList
+                        data={title.opening_themes}
+                        keyExtractor={(index) => index}
+                        renderItem={({ item, index }) => (
+                            <Text
+                                numberOfLines={1}
+                                style={[
+                                    styles.opening,
+                                    index % 2 === 0 && styles.bg,
+                                ]}
+                            >
+                                {item}
+                            </Text>
+                        )}
+                        ListHeaderComponent={() => (
+                            <Text style={styles.heading}>Opening Themes</Text>
+                        )}
+                    />
+                )}
+                {title.ending_themes.length !== 0 && (
+                    <FlatList
+                        data={title.ending_themes}
+                        keyExtractor={(index) => index}
+                        renderItem={({ item, index }) => (
+                            <Text
+                                numberOfLines={1}
+                                style={[
+                                    styles.opening,
+                                    index % 2 === 0 && styles.bg,
+                                ]}
+                            >
+                                {item}
+                            </Text>
+                        )}
+                        ListHeaderComponent={() => (
+                            <Text style={styles.heading}>Ending Themes</Text>
+                        )}
+                    />
+                )}
             </View>
         </ScrollView>
     );
@@ -88,13 +80,13 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "white",
         paddingHorizontal: 15,
-        paddingVertical: 10,
+        paddingBottom: 10,
     },
     heading: {
         textAlign: "center",
         fontWeight: "bold",
         fontSize: 16,
-        marginVertical: 10,
+        marginVertical: 15,
     },
     genre: {
         borderRadius: 6,

@@ -103,12 +103,7 @@ export default function General({ title }) {
                                     marginTop: 10,
                                 }}
                             >
-                                <Text
-                                    style={[
-                                        styles.summary,
-                                        { flex: 1, textAlign: "center" },
-                                    ]}
-                                >
+                                <Text style={[styles.summary, { flex: 1 }]}>
                                     Synopsis
                                 </Text>
                                 <TouchableRipple
@@ -160,12 +155,7 @@ export default function General({ title }) {
                                     marginTop: 10,
                                 }}
                             >
-                                <Text
-                                    style={[
-                                        styles.summary,
-                                        { flex: 1, textAlign: "center" },
-                                    ]}
-                                >
+                                <Text style={[styles.summary, { flex: 1 }]}>
                                     Background
                                 </Text>
                                 <TouchableRipple
@@ -215,24 +205,6 @@ export default function General({ title }) {
 }
 
 const styles = StyleSheet.create({
-    background: {
-        height: 240,
-    },
-    linearGradient: {
-        height: "100%",
-        backgroundColor: "rgba(256, 256, 256, 0.5)",
-    },
-    detailsContainer: {
-        flex: 1,
-        flexDirection: "row",
-        margin: 17,
-    },
-    logo: {
-        height: 180,
-        width: 120,
-        margin: 3.2,
-        borderRadius: 6,
-    },
     mainContainer: {
         flex: 1,
         flexDirection: "column",

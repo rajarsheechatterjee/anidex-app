@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { TouchableRipple } from "react-native-paper";
 
 export default function General({ title }) {
+    const [viewSynText, setViewSynText] = useState("More");
+    const [synLines, setSynLines] = useState(14);
+
+    const handleSynView = () => {
+        if (viewSynText === "More") {
+            setSynLines(200);
+            setViewSynText("Less");
+        } else {
+            setSynLines(14);
+            setViewSynText("More");
+        }
+    };
+
     return (
         <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
             <View style={styles.mainContainer}>
@@ -60,9 +75,49 @@ export default function General({ title }) {
                         )}
                     />
                 </View>
-                <View style={{ marginTop: 10, alignItems: "center" }}>
-                    <Text style={styles.summary}>Synopsis</Text>
-                    <Text style={styles.synopsis}>{title.synopsis}</Text>
+                <View style={{ marginTop: 10 }}>
+                    <View
+                        style={{
+                            marginTop: 10,
+                            flexDirection: "row",
+                        }}
+                    >
+                        <Text style={styles.summary}>Synopsis</Text>
+                        <TouchableRipple
+                            borderless
+                            onPress={handleSynView}
+                            style={{
+                                borderWidth: 1,
+                                borderColor: "#e0e0e0",
+                                width: 80,
+                                height: 22,
+                                borderRadius: 24,
+                                position: "absolute",
+                                right: 0,
+                            }}
+                            rippleColor="#2979FF"
+                        >
+                            <Text
+                                style={{
+                                    textAlign: "center",
+                                    textAlignVertical: "center",
+                                    paddingRight: 5,
+                                }}
+                            >
+                                <MaterialCommunityIcons
+                                    name={
+                                        viewSynText === "More"
+                                            ? "chevron-down"
+                                            : "chevron-up"
+                                    }
+                                />
+                                {"  " + viewSynText}
+                            </Text>
+                        </TouchableRipple>
+                    </View>
+                    <Text style={styles.synopsis} numberOfLines={synLines}>
+                        {title.synopsis}
+                    </Text>
                     {title.background && (
                         <View>
                             <Text style={styles.summary}>Background</Text>
@@ -145,6 +200,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 2,
         fontSize: 13,
         paddingVertical: 1,
+        justifyContent: "center",
+        flex: 1,
     },
     genres: {
         marginTop: 10,

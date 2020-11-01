@@ -1,6 +1,5 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { View } from "react-native";
 
 import General from "../screens/Anime/AnimeDetails/Tabs/GeneralTab";
 import Stats from "../screens/Anime/AnimeDetails/Tabs/StatsTab";

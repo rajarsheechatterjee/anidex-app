@@ -8,7 +8,6 @@ import {
     ImageBackground,
     Clipboard,
     ToastAndroid,
-    ScrollView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import TabNav from "../../../navigation/DetailsTab";
@@ -52,13 +51,13 @@ export default function Details({ route, navigation }) {
                     title={route.params.title}
                     titleStyle={{ color: Colors.detailsHeaderText }}
                 />
-                {/* <Appbar.Action
-                    icon="web"
+                <Appbar.Action
+                    icon="earth"
                     accessibilityLabel="Webview"
                     onPress={() => {
                         navigation.navigate("Mal Webview", item);
                     }}
-                /> */}
+                />
             </Appbar.Header>
             <View style={styles.container}>
                 {isLoading ? (

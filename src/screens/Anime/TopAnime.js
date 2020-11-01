@@ -164,6 +164,8 @@ export default function Home({ navigation }) {
                 ) : (
                     <>
                         <FlatList
+                            removeClippedSubviews={true}
+                            initialNumToRender={12}
                             contentContainerStyle={styles.list}
                             numColumns={3}
                             data={titles}
@@ -197,7 +199,7 @@ export default function Home({ navigation }) {
                                     borderless
                                     centered
                                     rippleColor="rgba(256,256,256,0.3)"
-                                    style={styles.opac}
+                                    style={styles.animeCardContainer}
                                     onPress={() =>
                                         navigation.navigate("Details", item)
                                     }
@@ -220,7 +222,7 @@ const styles = StyleSheet.create({
         padding: 3,
         backgroundColor: Colors.backgroundColor,
     },
-    opac: {
+    animeCardContainer: {
         height: 190,
         flex: 1 / 3,
         margin: 3.2,

@@ -14,6 +14,7 @@ function topAnimeStack() {
             screenOptions={{
                 headerShown: false,
             }}
+            headerMode="screen"
         >
             <Stack.Screen name="Top Anime" component={TopAnime} />
             <Stack.Screen name="Details" component={Details} />
